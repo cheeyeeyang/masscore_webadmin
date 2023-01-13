@@ -6,6 +6,7 @@ declare var $:any;
   styleUrls: ['./ethnicity.component.sass']
 })
 export class EthnicityComponent {
+  //helper table
   ngAfterViewInit(){
     $(document).ready(function(){
     $("#example1").DataTable({
