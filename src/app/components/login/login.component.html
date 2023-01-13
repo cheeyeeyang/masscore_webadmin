@@ -9,7 +9,7 @@
         <div class="card-body">
             <form>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="ຊື່ຜູ້ໃຊ້">
+              <input type="text" class="form-control"  name="usename" [ngModel]="user.username"  placeholder="ຊື່ຜູ້ໃຊ້" required>
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-user"></span>
@@ -17,7 +17,7 @@
               </div>
             </div>
             <div class="input-group mb-3">
-              <input type="password" class="form-control" placeholder="ລະຫັດຜ່ານ">
+              <input type="password" class="form-control" name="password" [(ngModel)]="user.password" placeholder="ລະຫັດຜ່ານ" required>
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-lock"></span>
@@ -25,7 +25,7 @@
             </div>
               </div>
               <div class="social-auth-links text-center mt-2 mb-3">
-                <a type="submit" class="btn btn-block btn-primary" href="/home">
+                <a class="btn btn-block btn-primary" (click)="login()">
                             <i class="fa fa-sign-in-alt mr-2"></i>ເຂົ້າລະບົບ
                 </a>
               </div>
