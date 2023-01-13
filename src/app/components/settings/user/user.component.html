@@ -1,0 +1,454 @@
+<div ng-view>
+    <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h5><i class="fa fa-users"></i>
+                  {{'user' | translate}}</h5>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/home">{{'home' | translate}}</a></li>
+                <li class="breadcrumb-item active">{{'user' | translate}}</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <div class="row">
+                    <div class="col-md-9">
+                        <a  class="btn btn-success" (click)="opencreateModal()"><i class="fa fa-plus"></i> {{'add' | translate}}</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead class="bg-info">
+                      <tr style="text-align: center">
+                        <th>{{'no' | translate}}</th>
+                        <th>{{'name' | translate}}</th>
+                        <th>{{'phone' | translate}}</th>
+                        <th>{{'email' | translate}}</th>
+                        <th>{{'ethnicity' | translate}}</th>
+                        <th>{{'religion' | translate}}</th>
+                        <th>{{'subject' | translate}}</th>
+                        <th>{{'theory' | translate}}</th>
+                        <th>{{'organization_position' | translate}}</th>
+                        <th>{{'goverment_position' | translate}}</th>
+                        <th>{{'action' | translate}}</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>ທ້າວ ແກ້ວ</td>
+                            <td>02055944671</td>
+                            <td>cheeyeeyang@gmail.com</td>
+                            <td>ມົ້ງ</td>
+                            <td>ຜີ</td>
+                            <td>ປະລິນຍາຕີ</td>
+                            <td>ທິດສະດີການເມືອງ</td>
+                            <td>ຫົວໜ້າ</td>
+                            <td>ຮອງຫົວໜ້າ</td>
+                            <td class="text-center"><button  type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></button>
+                                <button  type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>ທ້າວ ໄຊພອນ</td>
+                            <td>02055944670</td>
+                            <td>cheeyeeyang@gmail.com</td>
+                            <td>ມົ້ງ</td>
+                            <td>ຜີ</td>
+                            <td>ປະລິນຍາຕີ</td>
+                            <td>ທິດສະດີການເມືອງ</td>
+                            <td>ຫົວໜ້າ</td>
+                            <td>ຮອງຫົວໜ້າ</td>
+                            <td class="text-center">
+                                <button  type="button" class="btn btn-warning btn-sm" (click)="openeditModal()"><i class="fas fa-pencil-alt"></i></button>
+                                <button  type="button" class="btn btn-danger btn-sm" (click)="opendeleteModal()"><i class="fas fa-trash"></i></button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- /.modal-create -->
+      <div class="modal fade" id="modal-add">
+        <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">{{'add' | translate}}</h4>
+                  <button type="button" class="close" (click)="closecreateModal()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row justify-content-center">
+                    <div class="d-flex flex-column">
+                        <img src="assets/img/profile.jpg" width="100">
+                        <div class="col-md-12">
+                          <input type="file" class="form-control"><br>
+                        </div>
+                    </div>
+                  </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'name' | translate}}</label>
+                              <input type="text" class="form-control" placeholder="{{'name' | translate}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="">{{'phone' | translate}}</label>
+                                  <input type="text" class="form-control" placeholder="{{'phone' | translate}}">
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'email' | translate}}</label>
+                              <input type="text" class="form-control" placeholder="{{'email' | translate}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'ethnicity' | translate}}</label>
+                                <select name="" id="" class="form-control">
+                                    <option value="">ມົ້ງ</option>
+                                    <option value="">ລາວ</option>
+                                </select>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'religion' | translate}}</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">ຜີ</option>
+                                <option value="">ພຸດ</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'born_province' | translate}}</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">ວຽງຈັນ</option>
+                                <option value="">ນະຄອນຫຼວງ</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'born_district' | translate}}</label>
+                                <select name="" id="" class="form-control">
+                                    <option value="">ໄຊທານີ</option>
+                                    <option value="">ຈັນທະບູລີ</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'born_village' | translate}}</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">ດົງໂດກ</option>
+                                <option value="">ດົງໂດກ</option>
+                            </select>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'province' | translate}}</label>
+                          <select name="" id="" class="form-control">
+                              <option value="">ວຽງຈັນ</option>
+                              <option value="">ນະຄອນຫຼວງ</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'district' | translate}}</label>
+                              <select name="" id="" class="form-control">
+                                  <option value="">ໄຊທານີ</option>
+                                  <option value="">ຈັນທະບູລີ</option>
+                              </select>
+                            </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'village' | translate}}</label>
+                          <select name="" id="" class="form-control">
+                              <option value="">ດົງໂດກ</option>
+                              <option value="">ດົງໂດກ</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'subject' | translate}}</label>
+                          <select name="" id="" class="form-control">
+                              <option value="">ຜີ</option>
+                              <option value="">ພຸດ</option>
+                          </select>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">{{'theory' | translate}}</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">ວຽງຈັນ</option>
+                            <option value="">ນະຄອນຫຼວງ</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'organization_position' | translate}}</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">ໄຊທານີ</option>
+                                <option value="">ຈັນທະບູລີ</option>
+                            </select>
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">{{'goverment_position' | translate}}</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">ດົງໂດກ</option>
+                            <option value="">ດົງໂດກ</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">{{'mass_position' | translate}}</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">ຜີ</option>
+                            <option value="">ພຸດ</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+                      <div class="d-flex justify-content-between">
+                          <button  type="button" class="btn btn-success"><i class="fas fa-plus"></i>&nbsp;{{'save' | translate}}</button>
+                          <button type="button" class="btn btn-danger" (click)="closecreateModal()" data-dismiss="modal"><i class="fas fa-power-off"></i>&nbsp;{{'close' | translate}}</button>
+                      </div>
+                </div>
+              </div>
+        </div>
+      </div>
+      <!-- end -->
+      <!-- /.modal-edit -->
+      <div class="modal fade" id="modal-edit">
+        <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">{{'edit' | translate}}</h4>
+                  <button type="button" class="close" (click)="closeeditModal()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row justify-content-center">
+                    <div class="d-flex flex-column">
+                        <img src="assets/img/profile.jpg" width="100">
+                        <div class="col-md-12">
+                          <input type="file" class="form-control"><br>
+                        </div>
+                    </div>
+                  </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'name' | translate}}</label>
+                              <input type="text" class="form-control" placeholder="{{'name' | translate}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="">{{'phone' | translate}}</label>
+                                  <input type="text" class="form-control" placeholder="{{'phone' | translate}}">
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'email' | translate}}</label>
+                              <input type="text" class="form-control" placeholder="{{'email' | translate}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'ethnicity' | translate}}</label>
+                                <select name="" id="" class="form-control">
+                                    <option value="">ມົ້ງ</option>
+                                    <option value="">ລາວ</option>
+                                </select>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'religion' | translate}}</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">ຜີ</option>
+                                <option value="">ພຸດ</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'born_province' | translate}}</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">ວຽງຈັນ</option>
+                                <option value="">ນະຄອນຫຼວງ</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'born_district' | translate}}</label>
+                                <select name="" id="" class="form-control">
+                                    <option value="">ໄຊທານີ</option>
+                                    <option value="">ຈັນທະບູລີ</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'born_village' | translate}}</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">ດົງໂດກ</option>
+                                <option value="">ດົງໂດກ</option>
+                            </select>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'province' | translate}}</label>
+                          <select name="" id="" class="form-control">
+                              <option value="">ວຽງຈັນ</option>
+                              <option value="">ນະຄອນຫຼວງ</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'district' | translate}}</label>
+                              <select name="" id="" class="form-control">
+                                  <option value="">ໄຊທານີ</option>
+                                  <option value="">ຈັນທະບູລີ</option>
+                              </select>
+                            </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'village' | translate}}</label>
+                          <select name="" id="" class="form-control">
+                              <option value="">ດົງໂດກ</option>
+                              <option value="">ດົງໂດກ</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'subject' | translate}}</label>
+                          <select name="" id="" class="form-control">
+                              <option value="">ຜີ</option>
+                              <option value="">ພຸດ</option>
+                          </select>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">{{'theory' | translate}}</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">ວຽງຈັນ</option>
+                            <option value="">ນະຄອນຫຼວງ</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'organization_position' | translate}}</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">ໄຊທານີ</option>
+                                <option value="">ຈັນທະບູລີ</option>
+                            </select>
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">{{'goverment_position' | translate}}</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">ດົງໂດກ</option>
+                            <option value="">ດົງໂດກ</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">{{'mass_position' | translate}}</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">ຜີ</option>
+                            <option value="">ພຸດ</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+                      <div class="d-flex justify-content-between">
+                          <button  type="button" class="btn btn-warning"><i class="fas fa-edit"></i>&nbsp;{{'edit' | translate}}</button>
+                          <button type="button" class="btn btn-danger" (click)="closeeditModal()" data-dismiss="modal"><i class="fas fa-power-off"></i>&nbsp;{{'close' | translate}}</button>
+                      </div>
+                </div>
+              </div>
+        </div>
+      </div>
+      <!-- end -->
+       <!-- /.modal-delete -->
+       <div class="modal fade" id="modal-delete">
+        <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">{{'title_delete' | translate}}</h4>
+                  <button type="button" class="close" (click)="closedeleteModal()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                      <div class="row">
+                          <div class="col-md-12">
+                            <h4>cheeyeeyang mouasue</h4>
+                          </div>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                          <button  type="button" class="btn btn-danger"><i class="fas fa-trash"></i>&nbsp;{{'delete' | translate}}</button>
+                          <button type="button" class="btn btn-warning" (click)="closedeleteModal()" data-dismiss="modal"><i class="fas fa-power-off"></i>&nbsp;{{'close' | translate}}</button>
+                      </div>
+                </div>
+              </div>
+        </div>
+      </div>
+      <!-- end -->
+    </div>
+
