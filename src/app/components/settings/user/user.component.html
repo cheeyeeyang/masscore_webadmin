@@ -29,9 +29,15 @@
                   </div>
                 </div>
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
+                  <div class="row mb-2">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" [(ngModel)]="searchT" placeholder="{{'search' | translate}}">
+                    </div>
+                 </div>
+                  <div class="table-responsive mt-2">
+                    <table class="table table-bordered table-striped" style="white-space:nowrap;">
                       <thead class="bg-info">
-                      <tr style="text-align: center">
+                      <tr class="text-center">
                         <th>{{'no' | translate}}</th>
                         <th>{{'name' | translate}}</th>
                         <th>{{'phone' | translate}}</th>
@@ -46,25 +52,14 @@
                       </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>ທ້າວ ແກ້ວ</td>
-                            <td>02055944671</td>
-                            <td>cheeyeeyang@gmail.com</td>
-                            <td>ມົ້ງ</td>
-                            <td>ຜີ</td>
-                            <td>ປະລິນຍາຕີ</td>
-                            <td>ທິດສະດີການເມືອງ</td>
-                            <td>ຫົວໜ້າ</td>
-                            <td>ຮອງຫົວໜ້າ</td>
-                            <td class="text-center"><button  type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></button>
-                                <button  type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>ທ້າວ ໄຊພອນ</td>
-                            <td>02055944670</td>
-                            <td>cheeyeeyang@gmail.com</td>
+                        <tr *ngFor="let data of dataList | filter: searchT | paginate: { itemsPerPage: 10, currentPage: page, totalItems: count}; index as i">
+                            <td class="text-center">
+                              <span *ngIf="page==1">{{(i+1)}}</span>
+                              <span *ngIf="page>1">{{((page-1)*10)+(i+1)}}</span>
+                            </td>
+                            <td>{{data.username}}</td>
+                            <td>{{data.phone}}</td>
+                            <td>{{data.email}}</td>
                             <td>ມົ້ງ</td>
                             <td>ຜີ</td>
                             <td>ປະລິນຍາຕີ</td>
@@ -72,11 +67,18 @@
                             <td>ຫົວໜ້າ</td>
                             <td>ຮອງຫົວໜ້າ</td>
                             <td class="text-center">
-                                <button  type="button" class="btn btn-warning btn-sm" (click)="openeditModal()"><i class="fas fa-pencil-alt"></i></button>
-                                <button  type="button" class="btn btn-danger btn-sm" (click)="opendeleteModal()"><i class="fas fa-trash"></i></button></td>
+                                <button  type="button" class="btn btn-warning btn-sm" (click)="openeditModal(data)"><i class="fas fa-pencil-alt"></i></button>&nbsp;
+                                <button  type="button" class="btn btn-danger btn-sm" (click)="opendeleteModal(data)"><i class="fas fa-trash"></i></button></td>
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                  <div class="text-center mt-2">
+                    <pagination-controls  previousLabel="Preview" nextLabel="Next" (pageChange)="page = ($event)"></pagination-controls>
+                  </div>
+                  <div class="text-center" *ngIf="!dataList">
+                     <img src="assets/img/loading.gif" alt="" width="100" height="100">
+                  </div> 
                 </div>
               </div>
             </div>
@@ -87,7 +89,7 @@
       <div class="modal fade" id="modal-add">
         <div class="modal-dialog modal-xl">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-info">
                   <h4 class="modal-title">{{'add' | translate}}</h4>
                   <button type="button" class="close" (click)="closecreateModal()" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -102,48 +104,87 @@
                         </div>
                     </div>
                   </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                              <label for="">{{'name' | translate}}</label>
-                              <input type="text" class="form-control" placeholder="{{'name' | translate}}">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                                <div class="form-group">
-                                  <label for="">{{'phone' | translate}}</label>
-                                  <input type="text" class="form-control" placeholder="{{'phone' | translate}}">
+                  <form [formGroup]="form">
+                        <div class="row">
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'name' | translate}}</label>
+                                <input type="text" class="form-control" placeholder="{{'name' | translate}}">
                               </div>
-                        </div>
-                        <div class="col-md-3">
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'phone' | translate}}</label>
+                              <input [ngClass]="{ 'is-invalid': submitted && f['phone'].errors}" formControlName="phone" [(ngModel)]="model.phone" class="form-control" placeholder="{{'phone' | translate}}">
+                              <div *ngIf="submitted && f['phone'].errors" class="is-invalid">
+                                <span *ngIf="f['phone'].errors['required']" class="text-danger">{{'required_phone' | translate}}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
                             <div class="form-group">
                               <label for="">{{'email' | translate}}</label>
-                              <input type="text" class="form-control" placeholder="{{'email' | translate}}">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                              <div class="form-group">
-                                <label for="">{{'ethnicity' | translate}}</label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">ມົ້ງ</option>
-                                    <option value="">ລາວ</option>
-                                </select>
+                              <input [ngClass]="{ 'is-invalid': submitted && f['email'].errors}" formControlName="email" [(ngModel)]="model.email" class="form-control" placeholder="{{'email' | translate}}">
+                              <div *ngIf="submitted && f['email'].errors" class="is-invalid">
+                                <span *ngIf="f['email'].errors['required']" class="text-danger">{{'required_email' | translate}}</span>
                               </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <label for="">{{'religion' | translate}}</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">ຜີ</option>
-                                <option value="">ພຸດ</option>
-                            </select>
+                              <div *ngIf="submitted && f['email'].errors" class="is-invalid">
+                                <span *ngIf="f['email'].errors['email']" class="text-danger">example@gmail.com</span>
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                          <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="">{{'ethnicity' | translate}}</label>
+                                  <select name="" id="" class="form-control">
+                                      <option value="">ມົ້ງ</option>
+                                      <option value="">ລາວ</option>
+                                  </select>
+                                </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'religion' | translate}}</label>
+                              <select name="" id="" class="form-control">
+                                  <option value="">ຜີ</option>
+                                  <option value="">ພຸດ</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'born_province' | translate}}</label>
+                              <select name="" id="" class="form-control">
+                                  <option value="">ວຽງຈັນ</option>
+                                  <option value="">ນະຄອນຫຼວງ</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="">{{'born_district' | translate}}</label>
+                                  <select name="" id="" class="form-control">
+                                      <option value="">ໄຊທານີ</option>
+                                      <option value="">ຈັນທະບູລີ</option>
+                                  </select>
+                                </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'born_village' | translate}}</label>
+                              <select name="" id="" class="form-control">
+                                  <option value="">ດົງໂດກ</option>
+                                  <option value="">ດົງໂດກ</option>
+                              </select>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
-                            <label for="">{{'born_province' | translate}}</label>
+                            <label for="">{{'province' | translate}}</label>
                             <select name="" id="" class="form-control">
                                 <option value="">ວຽງຈັນ</option>
                                 <option value="">ນະຄອນຫຼວງ</option>
@@ -152,7 +193,7 @@
                         </div>
                         <div class="col-md-3">
                               <div class="form-group">
-                                <label for="">{{'born_district' | translate}}</label>
+                                <label for="">{{'district' | translate}}</label>
                                 <select name="" id="" class="form-control">
                                     <option value="">ໄຊທານີ</option>
                                     <option value="">ຈັນທະບູລີ</option>
@@ -161,10 +202,19 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <label for="">{{'born_village' | translate}}</label>
+                            <label for="">{{'village' | translate}}</label>
                             <select name="" id="" class="form-control">
                                 <option value="">ດົງໂດກ</option>
                                 <option value="">ດົງໂດກ</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'subject' | translate}}</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">ຜີ</option>
+                                <option value="">ພຸດ</option>
                             </select>
                           </div>
                         </div>
@@ -172,7 +222,7 @@
                     <div class="row">
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label for="">{{'province' | translate}}</label>
+                          <label for="">{{'theory' | translate}}</label>
                           <select name="" id="" class="form-control">
                               <option value="">ວຽງຈັນ</option>
                               <option value="">ນະຄອນຫຼວງ</option>
@@ -181,7 +231,7 @@
                       </div>
                       <div class="col-md-3">
                             <div class="form-group">
-                              <label for="">{{'district' | translate}}</label>
+                              <label for="">{{'organization_position' | translate}}</label>
                               <select name="" id="" class="form-control">
                                   <option value="">ໄຊທານີ</option>
                                   <option value="">ຈັນທະບູລີ</option>
@@ -190,7 +240,7 @@
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label for="">{{'village' | translate}}</label>
+                          <label for="">{{'goverment_position' | translate}}</label>
                           <select name="" id="" class="form-control">
                               <option value="">ດົງໂດກ</option>
                               <option value="">ດົງໂດກ</option>
@@ -199,7 +249,7 @@
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label for="">{{'subject' | translate}}</label>
+                          <label for="">{{'mass_position' | translate}}</label>
                           <select name="" id="" class="form-control">
                               <option value="">ຜີ</option>
                               <option value="">ພຸດ</option>
@@ -208,46 +258,45 @@
                       </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                       <div class="form-group">
-                        <label for="">{{'theory' | translate}}</label>
-                        <select name="" id="" class="form-control">
-                            <option value="">ວຽງຈັນ</option>
-                            <option value="">ນະຄອນຫຼວງ</option>
-                        </select>
+                        <label for="">{{'username' | translate}}</label>
+                        <input [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" formControlName="username" [(ngModel)]="model.username" class="form-control" placeholder="{{'username' | translate}}">
+                        <div *ngIf="submitted && f['username'].errors" class="is-invalid">
+                          <span *ngIf="f['username'].errors['required']" class="text-danger">{{'required_username' | translate}}</span>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-3">
-                          <div class="form-group">
-                            <label for="">{{'organization_position' | translate}}</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">ໄຊທານີ</option>
-                                <option value="">ຈັນທະບູລີ</option>
-                            </select>
-                          </div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                       <div class="form-group">
-                        <label for="">{{'goverment_position' | translate}}</label>
-                        <select name="" id="" class="form-control">
-                            <option value="">ດົງໂດກ</option>
-                            <option value="">ດົງໂດກ</option>
+                       <label>{{'status' | translate}}</label>
+                        <select class="form-control" [ngClass]="{ 'is-invalid': submitted && f['role'].errors }" formControlName="role" [(ngModel)]="role">
+                          <option value="">{{'select' | translate}}</option>
+                          <option value="Customer">Customer</option>
+                           <option value="Vendor">Vendor</option>
+                           <option value="Manager">Manager</option>
+                           <option value="Admin">Admin</option>
+                           <option value="SuperAdmin">SuperAdmin</option>
                         </select>
+                        <div *ngIf="submitted && f['role'].errors" class="is-invalid">
+                          <span *ngIf="f['role'].errors['required']" class="text-danger">{{'required_status' | translate}}</span>
+                        </div>
+                       </div>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <label for="">{{'password' | translate}}</label>
+                        <input type="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" formControlName="password" [(ngModel)]="model.password" class="form-control" placeholder="{{'password' | translate}}">
+                        <div *ngIf="submitted && f['password'].errors" class="is-invalid">
+                          <span *ngIf="f['password'].errors['required']" class="text-danger">{{'required_password' | translate}}</span>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label for="">{{'mass_position' | translate}}</label>
-                        <select name="" id="" class="form-control">
-                            <option value="">ຜີ</option>
-                            <option value="">ພຸດ</option>
-                        </select>
-                      </div>
-                    </div>
-                </div>
+                  </div>
+                  </form>
                       <div class="d-flex justify-content-between">
-                          <button  type="button" class="btn btn-success"><i class="fas fa-plus"></i>&nbsp;{{'save' | translate}}</button>
-                          <button type="button" class="btn btn-danger" (click)="closecreateModal()" data-dismiss="modal"><i class="fas fa-power-off"></i>&nbsp;{{'close' | translate}}</button>
+                          <button  type="button" class="btn btn-success" (click)="createData(model)"><i class="fas fa-plus"></i>&nbsp;{{'save' | translate}}</button>
+                          <button type="button" class="btn btn-danger" (click)="closecreateModal()" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;{{'close' | translate}}</button>
                       </div>
                 </div>
               </div>
@@ -258,7 +307,7 @@
       <div class="modal fade" id="modal-edit">
         <div class="modal-dialog modal-xl">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-info">
                   <h4 class="modal-title">{{'edit' | translate}}</h4>
                   <button type="button" class="close" (click)="closeeditModal()" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -273,48 +322,87 @@
                         </div>
                     </div>
                   </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                              <label for="">{{'name' | translate}}</label>
-                              <input type="text" class="form-control" placeholder="{{'name' | translate}}">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                                <div class="form-group">
-                                  <label for="">{{'phone' | translate}}</label>
-                                  <input type="text" class="form-control" placeholder="{{'phone' | translate}}">
+                  <form [formGroup]="form">
+                        <div class="row">
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'name' | translate}}</label>
+                                <input type="text" class="form-control" placeholder="{{'name' | translate}}">
                               </div>
-                        </div>
-                        <div class="col-md-3">
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'phone' | translate}}</label>
+                              <input [ngClass]="{ 'is-invalid': submitted && f['phone'].errors}" formControlName="phone" [(ngModel)]="model.phone" class="form-control" placeholder="{{'phone' | translate}}">
+                              <div *ngIf="submitted && f['phone'].errors" class="is-invalid">
+                                <span *ngIf="f['phone'].errors['required']" class="text-danger">{{'required_phone' | translate}}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
                             <div class="form-group">
                               <label for="">{{'email' | translate}}</label>
-                              <input type="text" class="form-control" placeholder="{{'email' | translate}}">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                              <div class="form-group">
-                                <label for="">{{'ethnicity' | translate}}</label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">ມົ້ງ</option>
-                                    <option value="">ລາວ</option>
-                                </select>
+                              <input [ngClass]="{ 'is-invalid': submitted && f['email'].errors}" formControlName="email" [(ngModel)]="model.email" class="form-control" placeholder="{{'email' | translate}}">
+                              <div *ngIf="submitted && f['email'].errors" class="is-invalid">
+                                <span *ngIf="f['email'].errors['required']" class="text-danger">{{'required_email' | translate}}</span>
                               </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <label for="">{{'religion' | translate}}</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">ຜີ</option>
-                                <option value="">ພຸດ</option>
-                            </select>
+                              <div *ngIf="submitted && f['email'].errors" class="is-invalid">
+                                <span *ngIf="f['email'].errors['email']" class="text-danger">example@gmail.com</span>
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                          <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="">{{'ethnicity' | translate}}</label>
+                                  <select name="" id="" class="form-control">
+                                      <option value="">ມົ້ງ</option>
+                                      <option value="">ລາວ</option>
+                                  </select>
+                                </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'religion' | translate}}</label>
+                              <select name="" id="" class="form-control">
+                                  <option value="">ຜີ</option>
+                                  <option value="">ພຸດ</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'born_province' | translate}}</label>
+                              <select name="" id="" class="form-control">
+                                  <option value="">ວຽງຈັນ</option>
+                                  <option value="">ນະຄອນຫຼວງ</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="">{{'born_district' | translate}}</label>
+                                  <select name="" id="" class="form-control">
+                                      <option value="">ໄຊທານີ</option>
+                                      <option value="">ຈັນທະບູລີ</option>
+                                  </select>
+                                </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'born_village' | translate}}</label>
+                              <select name="" id="" class="form-control">
+                                  <option value="">ດົງໂດກ</option>
+                                  <option value="">ດົງໂດກ</option>
+                              </select>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
-                            <label for="">{{'born_province' | translate}}</label>
+                            <label for="">{{'province' | translate}}</label>
                             <select name="" id="" class="form-control">
                                 <option value="">ວຽງຈັນ</option>
                                 <option value="">ນະຄອນຫຼວງ</option>
@@ -323,7 +411,7 @@
                         </div>
                         <div class="col-md-3">
                               <div class="form-group">
-                                <label for="">{{'born_district' | translate}}</label>
+                                <label for="">{{'district' | translate}}</label>
                                 <select name="" id="" class="form-control">
                                     <option value="">ໄຊທານີ</option>
                                     <option value="">ຈັນທະບູລີ</option>
@@ -332,10 +420,19 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <label for="">{{'born_village' | translate}}</label>
+                            <label for="">{{'village' | translate}}</label>
                             <select name="" id="" class="form-control">
                                 <option value="">ດົງໂດກ</option>
                                 <option value="">ດົງໂດກ</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'subject' | translate}}</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">ຜີ</option>
+                                <option value="">ພຸດ</option>
                             </select>
                           </div>
                         </div>
@@ -343,7 +440,7 @@
                     <div class="row">
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label for="">{{'province' | translate}}</label>
+                          <label for="">{{'theory' | translate}}</label>
                           <select name="" id="" class="form-control">
                               <option value="">ວຽງຈັນ</option>
                               <option value="">ນະຄອນຫຼວງ</option>
@@ -352,7 +449,7 @@
                       </div>
                       <div class="col-md-3">
                             <div class="form-group">
-                              <label for="">{{'district' | translate}}</label>
+                              <label for="">{{'organization_position' | translate}}</label>
                               <select name="" id="" class="form-control">
                                   <option value="">ໄຊທານີ</option>
                                   <option value="">ຈັນທະບູລີ</option>
@@ -361,7 +458,7 @@
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label for="">{{'village' | translate}}</label>
+                          <label for="">{{'goverment_position' | translate}}</label>
                           <select name="" id="" class="form-control">
                               <option value="">ດົງໂດກ</option>
                               <option value="">ດົງໂດກ</option>
@@ -370,7 +467,7 @@
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label for="">{{'subject' | translate}}</label>
+                          <label for="">{{'mass_position' | translate}}</label>
                           <select name="" id="" class="form-control">
                               <option value="">ຜີ</option>
                               <option value="">ພຸດ</option>
@@ -379,46 +476,45 @@
                       </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                       <div class="form-group">
-                        <label for="">{{'theory' | translate}}</label>
-                        <select name="" id="" class="form-control">
-                            <option value="">ວຽງຈັນ</option>
-                            <option value="">ນະຄອນຫຼວງ</option>
-                        </select>
+                        <label for="">{{'username' | translate}}</label>
+                        <input [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" formControlName="username" [(ngModel)]="model.username" class="form-control" placeholder="{{'username' | translate}}">
+                        <div *ngIf="submitted && f['username'].errors" class="is-invalid">
+                          <span *ngIf="f['username'].errors['required']" class="text-danger">{{'required_username' | translate}}</span>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-3">
-                          <div class="form-group">
-                            <label for="">{{'organization_position' | translate}}</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">ໄຊທານີ</option>
-                                <option value="">ຈັນທະບູລີ</option>
-                            </select>
-                          </div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                       <div class="form-group">
-                        <label for="">{{'goverment_position' | translate}}</label>
-                        <select name="" id="" class="form-control">
-                            <option value="">ດົງໂດກ</option>
-                            <option value="">ດົງໂດກ</option>
+                       <label>{{'status' | translate}}</label>
+                        <select class="form-control" [ngClass]="{ 'is-invalid': submitted && f['role'].errors }" formControlName="role" [(ngModel)]="role">
+                          <option value="">{{'select' | translate}}</option>
+                           <option value="Customer">Customer</option>
+                           <option value="Vendor">Vendor</option>
+                           <option value="Manager">Manager</option>
+                           <option value="Admin">Admin</option>
+                           <option value="SuperAdmin">SuperAdmin</option>
                         </select>
+                        <div *ngIf="submitted && f['role'].errors" class="is-invalid">
+                          <span *ngIf="f['role'].errors['required']" class="text-danger">{{'required_status' | translate}}</span>
+                        </div>
+                       </div>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <label for="">{{'password' | translate}}</label>
+                        <input type="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" formControlName="password" [(ngModel)]="model.password" class="form-control" placeholder="{{'password' | translate}}">
+                        <div *ngIf="submitted && f['password'].errors" class="is-invalid">
+                          <span *ngIf="f['password'].errors['required']" class="text-danger">{{'required_password' | translate}}</span>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label for="">{{'mass_position' | translate}}</label>
-                        <select name="" id="" class="form-control">
-                            <option value="">ຜີ</option>
-                            <option value="">ພຸດ</option>
-                        </select>
-                      </div>
-                    </div>
-                </div>
+                  </div>
+                  </form>
                       <div class="d-flex justify-content-between">
-                          <button  type="button" class="btn btn-warning"><i class="fas fa-edit"></i>&nbsp;{{'edit' | translate}}</button>
-                          <button type="button" class="btn btn-danger" (click)="closeeditModal()" data-dismiss="modal"><i class="fas fa-power-off"></i>&nbsp;{{'close' | translate}}</button>
+                          <button  type="button" class="btn btn-success" ><i class="fas fa-plus"></i>&nbsp;{{'save' | translate}}</button>
+                          <button type="button" class="btn btn-danger" (click)="closecreateModal()" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;{{'close' | translate}}</button>
                       </div>
                 </div>
               </div>
@@ -438,7 +534,8 @@
                 <div class="modal-body">
                       <div class="row">
                           <div class="col-md-12">
-                            <h4>cheeyeeyang mouasue</h4>
+                            <h4>{{model.username}}</h4>
+                            <h4>{{model.email}}</h4>
                           </div>
                       </div>
                       <div class="d-flex justify-content-between">

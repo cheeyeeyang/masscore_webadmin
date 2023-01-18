@@ -9,7 +9,7 @@
         <div class="card-body">
             <form>
             <div class="input-group mb-3">
-              <input type="text" class="form-control"  name="usename" [ngModel]="user.username"  placeholder="ຊື່ຜູ້ໃຊ້" required>
+              <input class="form-control" name="username" [(ngModel)]="user.username" placeholder="ຊື່ຜູ້ໃຊ້" required>
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-user"></span>
@@ -23,12 +23,21 @@
                   <span class="fas fa-lock"></span>
                 </div>
             </div>
+            </div>
+            <div *ngIf="checkLogin == 'active'; then trueBlock; else falseBlock"></div>
+             <ng-template #trueBlock>
+              <div class="text-center">
+                  <img src="assets/img/loading.gif" alt="" width="50" height="50">
               </div>
-              <div class="social-auth-links text-center mt-2 mb-3">
-                <a class="btn btn-block btn-primary" (click)="login()">
-                            <i class="fa fa-sign-in-alt mr-2"></i>ເຂົ້າລະບົບ
-                </a>
-              </div>
+              </ng-template>
+              <ng-template #falseBlock>
+                    <div class="social-auth-links text-center mt-2 mb-3">
+                          <a class="btn btn-block btn-primary" (click)="login(user)">
+                                      <i class="fa fa-sign-in-alt mr-2"></i>ເຂົ້າລະບົບ
+                          </a>
+                    </div>
+              </ng-template>
+              <h5 class="text-danger text-center">{{logifailed}}</h5>
           </form>
         </div>
         <!-- /.card-body -->

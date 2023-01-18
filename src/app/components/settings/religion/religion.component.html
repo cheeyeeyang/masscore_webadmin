@@ -1,125 +1,151 @@
 <div>
-    <section class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h5><i class="fa fa-layer-group"></i>
-                  {{'religion' | translate}}</h5>
-            </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="/home">{{'home' | translate}}</a></li>
-                <li class="breadcrumb-item active">{{'religion' | translate}}</li>
-              </ol>
-            </div>
+  <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h5><i class="fa fa-layer-group"></i>
+                {{'religion' | translate}}</h5>
           </div>
-        </div>
-      </section>
-
-      <section class="content">
-        <div class="container-fluid">
-          <div class="row">
-
-            <!--Foram add new-->
-            <div class="col-md-4">
-              <div class="card card-default">
-
-                <div class="card-header bg-info">
-                  <label>{{'add' | translate}}</label>
-                </div>
-                <form>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                 <label>{{'name' | translate}} </label>
-                                  <input type="text" class="form-control" placeholder="{{'name' | translate}}">
-                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                 <label>{{'status' | translate}}</label>
-                                  <select name="" id="" class="form-control">
-                                     <option value="">{{'active' | translate}}</option>
-                                     <option value="">{{'no_active' | translate}}</option>
-                                  </select>
-                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-between md-2">
-                            <button type="button"  class="btn btn-success">{{'save' | translate}}</button>
-                            <button type="button" wire:click="resetField" class="btn btn-primary">Clear</button>
-                        </div>
-                    </div>
-
-                </form>
-
-              </div>
-            </div>
-            <div class="col-md-8">
-              <div class="card">
-                <div class="card-header bg-info">
-                  <h3 class="card-title">{{'religion' | translate}}</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>{{'no' | translate}}</th>
-                        <th>{{'name' | translate}}</th>
-                        <th>{{'status' | translate}}</th>
-                        <th class="text-center">{{'action' | translate}}</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                              <td>1</td>
-                              <td>ການເມືອງ</td>
-                              <td>ໃຊ້ງານ</td>
-                              <td class="text-center"><button  type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></button>&nbsp;
-                                  <button  type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></td>
-                          </tr>
-                          <tr>
-                            <td>2</td>
-                            <td>ໄອທີ</td>
-                            <td>ໃຊ້ງານ</td>
-                            <td class="text-center"><button  type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></button>&nbsp;
-                                <button  type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></td>
-                        </tr>
-                      </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- /.modal-delete -->
-      <div class="modal fade" id="modal-delete">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">{{'delete' | translate}}</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <h3>kkkkkk</h3>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button  type="button" class="btn btn-danger">{{'delete' | translate}}</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal">{{'close' | translate}}</button>
-            </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/home">{{'home' | translate}}</a></li>
+              <li class="breadcrumb-item active">{{'religion' | translate}}</li>
+            </ol>
           </div>
         </div>
       </div>
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+
+          <!--Foram add new-->
+          <div class="col-md-4">
+            <div class="card card-default">
+
+              <div class="card-header bg-info">
+                <label>{{'add' | translate}}</label>
+              </div>
+              <form [formGroup]="form">
+                <div class="card-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                           <label>{{'name' | translate}} </label>
+                            <input   class="form-control" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" formControlName="name" [(ngModel)]="model.name" placeholder="{{'name' | translate}}">
+                            <div *ngIf="submitted && f['name'].errors" class="is-invalid">
+                              <span *ngIf="f['name'].errors['required']" class="text-danger">{{'required_name' | translate}}</span>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                           <label>{{'status' | translate}}</label>
+                            <select class="form-control" [ngClass]="{ 'is-invalid': submitted && f['active'].errors }" formControlName="active" [(ngModel)]="model.active">
+                               <option [ngValue]="true">{{'active' | translate}}</option>
+                               <option [ngValue]="false">{{'no_active' | translate}}</option>
+                            </select>
+                            <div *ngIf="submitted && f['active'].errors" class="is-invalid">
+                              <span *ngIf="f['active'].errors['required']" class="text-danger">{{'required_status' | translate}}</span>
+                            </div>
+                           </div>
+                      </div>
+                  </div>
+              </div>
+                  <div class="card-footer">
+                      <div class="d-flex justify-content-between md-2">
+                          <button type="button"  class="btn btn-success" *ngIf="hiddenId==''" (click)="createData(model)">{{'save' | translate}}</button>
+                          <button type="button"  class="btn btn-warning" *ngIf="hiddenId=='edit'" (click)="updateData(model)">{{'edit' | translate}}</button>
+                          <button type="button" (click)="resetField()" class="btn btn-primary">Clear</button>
+                      </div>
+                  </div>
+
+              </form>
+
+            </div>
+          </div>
+
+          <!--List users- table table-bordered table-striped -->
+
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header bg-info">
+                <h3 class="card-title">{{'religion' | translate}}</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="row mb-2">
+                   <div class="col-md-4">
+                       <input type="text" class="form-control" [(ngModel)]="searchT" placeholder="{{'search' | translate}}">
+                   </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped" style="white-space:nowrap;">
+                  <thead>
+                    <tr>
+                      <th class="text-center">{{'no' | translate}}</th>
+                      <th>{{'name' | translate}}</th>
+                      <th>{{'status' | translate}}</th>
+                      <th class="text-center">{{'action' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of dataList | filter: searchT | paginate: { itemsPerPage: 10, currentPage: page, totalItems: count}; index as i">
+                            <td class="text-center">
+                              <span *ngIf="page==1">{{(i+1)}}</span>
+                              <span *ngIf="page>1">{{((page-1)*10)+(i+1)}}</span>
+                            </td>
+                            <td>{{data.name}}</td>
+                            <td>
+                              <div *ngIf="data.active==true; then trueBlock; else falseBlock"></div>
+                              <ng-template #trueBlock>{{'active' | translate}}</ng-template>
+                              <ng-template #falseBlock>{{'no_active' | translate}}</ng-template>
+                            </td>
+                            <td class="text-center">
+                                <button  type="button" class="btn btn-warning btn-sm" (click)="editData(data)"><i class="fas fa-pencil-alt"></i></button>&nbsp;
+                                <button  type="button" class="btn btn-danger btn-sm" (click)="opendeleteModal(data)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div> 
+                <div class="text-center mt-2">
+                  <pagination-controls  previousLabel="Preview" nextLabel="Next" (pageChange)="page = ($event)"></pagination-controls>
+                </div>
+                <div class="text-center" *ngIf="!dataList">
+                   <img src="assets/img/loading.gif" alt="" width="100" height="100">
+                </div>                 
+              </div> 
+              <!-- /.card-body -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- /.modal-delete -->
+    <div class="modal fade" id="modal-delete">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{'delete' | translate}}</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h3>{{model.name}}</h3>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button  type="button" class="btn btn-danger" (click)="deleteData()"><i class="fas fa-trash"></i>&nbsp;{{'delete' | translate}}</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-power-off"></i>&nbsp;{{'close' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
 

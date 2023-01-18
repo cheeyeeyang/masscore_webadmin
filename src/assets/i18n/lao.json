@@ -80,5 +80,14 @@
           "add_success": "ບັນທຶກຂໍ້ມູນສໍາເລັດແລ້ວ",
           "edit_success": "ແກ້ໄຂຂໍ້ມູນສໍາເລັດແລ້ວ",
           "member_youth": "ສະມາຊິກຊາວໜຸ່ມ",
-          "close": "ປິດ"
+          "close": "ປິດ",
+          "required_name": "ໃສ່ຊື່ກ່ອນ!",
+          "required_status": "ເລືອກສະຖານະກ່ອນ!",
+          "username": "ຊື່ຜູ້ໃຊ້",
+          "password": "ລະຫັດຜ່ານ",
+          "required_username": "ໃສ່ຊື່ຜູ້ໃຊ້ກ່ອນ!",
+          "required_password": "ໃສ່ລະຫັດຜ່ານກ່ອນ!",
+          "required_email": "ໃສ່ອີເມວກ່ອນ!",
+          "required_phone" : "ໃສ່ເບີໂທກ່ອນ!",
+          "select" : "ເລືອກ"
 }

@@ -1,29 +1,58 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/auth_model';
 import { Observable } from 'rxjs/internal/Observable';
+import { VillageModel } from '../models/village_model';
+import { Reposity } from '../repository/repository';
+import { UserModel } from '../models/user_model';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) { 
+  private url = 'Authenticate';
+  constructor(private http: HttpClient) { }
+  public login(user: User): Observable<string> {
+    return this.http.post(`${Reposity.apiUrl}/${this.url}/loginAdmin`, user, {
+      responseType: 'text',
+    });
   }
-  public register(user: User): Observable<any> {
-    return this.http.post<any>(
-      'https://localhost:7047/api/Authenticate',
-      user
+  public getVillage(): Observable<VillageModel[]> {
+    return this.http.get<VillageModel[]>(`${Reposity.apiUrl}/Address/villages`);
+  }
+  public getUser(): Observable<UserModel> {
+    return this.http.get<UserModel>(`${Reposity.apiUrl}/${this.url}/User`);
+  }
+  public getUsers(): Observable<UserModel[]> {
+    return this.http.get<UserModel[]>(`${Reposity.apiUrl}/${this.url}/GetAllUser`);
+  }
+  public Update(id:Number,data: UserModel): Observable<any> {
+    return this.http.put(
+      `${Reposity.apiUrl}/${this.url}/${id}`,
+       data
     );
   }
 
-  public login(user: User): Observable<string> {
-    return this.http.post('https://localhost:7047/api/Authenticate/loginAdmin', user, {
-      responseType: 'text',
-    });
+  public Create(data: UserModel): Observable<UserModel[]> {
+    return this.http.post<UserModel[]>(
+      `${Reposity.apiUrl}/${this.url}/register-superadmin`,
+      data
+    );
   }
 
-  public getUser(): Observable<string> {
-    return this.http.get('https://localhost:7047/api/Authenticate/User', {
-      responseType: 'text',
-    });
+  public Delete(id:any): Observable<UserModel> {
+    return this.http.delete<UserModel>(
+      `${Reposity.apiUrl}/${this.url}/${id}`
+    );
+  }
+   //Helper Methods
+   setToken(token: string) {
+    localStorage.setItem('token', token);
+  }
+  getToken() {
+    return localStorage.getItem('token');
+  }
+  deleteToken() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   }
 }
