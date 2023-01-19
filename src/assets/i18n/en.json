@@ -80,5 +80,14 @@
     "add_success": "Save Succesfully",
     "edit_success": "Update Successfully",
     "member_youth": "Youth members",
-    "close": "Close"
+    "close": "Close",
+    "required_name": "Name is required!",
+    "required_status": "Status is required",
+    "username": "Username",
+    "password": "Password",
+    "required_username": "Username is required!",
+    "required_password": "Password is required",
+    "required_email": "Email is required",
+    "required_phone" : "Phone is required",
+    "select" : "Select"
 }
