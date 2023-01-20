@@ -30,8 +30,11 @@
                 </div>
                 <div class="card-body">
                   <div class="row mb-2">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" [(ngModel)]="searchT" placeholder="{{'search' | translate}}">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="search">{{'search' | translate}}</label>
+                          <input type="text" class="form-control" [(ngModel)]="searchT" placeholder="{{'search' | translate}}">
+                        </div>
                     </div>
                  </div>
                   <div class="table-responsive mt-2">
@@ -39,6 +42,7 @@
                       <thead class="bg-info">
                       <tr class="text-center">
                         <th>{{'no' | translate}}</th>
+                        <th>{{'profile' | translate}}</th>
                         <th>{{'name' | translate}}</th>
                         <th>{{'phone' | translate}}</th>
                         <th>{{'email' | translate}}</th>
@@ -57,16 +61,21 @@
                               <span *ngIf="page==1">{{(i+1)}}</span>
                               <span *ngIf="page>1">{{((page-1)*10)+(i+1)}}</span>
                             </td>
-                            <td>{{data.username}}</td>
-                            <td>{{data.phone}}</td>
-                            <td>{{data.email}}</td>
-                            <td>ມົ້ງ</td>
-                            <td>ຜີ</td>
-                            <td>ປະລິນຍາຕີ</td>
-                            <td>ທິດສະດີການເມືອງ</td>
-                            <td>ຫົວໜ້າ</td>
-                            <td>ຮອງຫົວໜ້າ</td>
                             <td class="text-center">
+                                <a>
+                                  <img src="assets/img/profile.jpg" class="img-fluid" alt="white sample"/>
+                                </a>
+                            </td>
+                            <td class="align-middle align-text-left">{{data.username}}</td>
+                            <td class="align-middle align-text-left" >{{data.phone}}</td>
+                            <td class="align-middle align-text-left" >{{data.email}}</td>
+                            <td class="align-middle align-text-left" >ມົ້ງ</td>
+                            <td class="align-middle align-text-left" >ຜີ</td>
+                            <td class="align-middle align-text-left" >ປະລິນຍາຕີ</td>
+                            <td class="align-middle align-text-left" >ທິດສະດີການເມືອງ</td>
+                            <td class="align-middle align-text-left" >ຫົວໜ້າ</td>
+                            <td class="align-middle align-text-left" >ຮອງຫົວໜ້າ</td>
+                            <td class="align-middle align-text-left">
                                 <button  type="button" class="btn btn-warning btn-sm" (click)="openeditModal(data)"><i class="fas fa-pencil-alt"></i></button>&nbsp;
                                 <button  type="button" class="btn btn-danger btn-sm" (click)="opendeleteModal(data)"><i class="fas fa-trash"></i></button></td>
                         </tr>
@@ -98,9 +107,9 @@
                 <div class="modal-body">
                   <div class="row justify-content-center">
                     <div class="d-flex flex-column">
-                        <img src="assets/img/profile.jpg" width="100">
+                        <img [src]="imageUrl" width="100">
                         <div class="col-md-12">
-                          <input type="file" class="form-control"><br>
+                          <input type="file" #Image accept="image/*" (change)="handleFileInput($any($event).target.files)">
                         </div>
                     </div>
                   </div>

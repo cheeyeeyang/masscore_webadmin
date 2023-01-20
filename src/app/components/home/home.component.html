@@ -15,36 +15,8 @@
                             aria-expanded="false" class="nav-link dropdown-toggle">{{'module' | translate}}</a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                           <ng-template [ngIf]="role =='SuperAdmin' || role =='Admin'">
-                          <li class="dropdown-submenu dropdown-hover">
-                            <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"
-                                class="dropdown-item dropdown-toggle"><i class="fa fa-caret-right"
-                                    style="font-size:12pt;" aria-hidden="true"></i>&nbsp;{{'setting' | translate}}</a>
-                            <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
-                                  <li><a routerLink="user" class="dropdown-item"><i
-                                            class="fa fa-caret-right" style="font-size:12pt;"
-                                            aria-hidden="true"></i>&nbsp;{{'user' | translate}}</a></li>
-                                  <li><a routerLink="subject" class="dropdown-item"><i
-                                              class="fa fa-caret-right" style="font-size:12pt;"
-                                              aria-hidden="true"></i>&nbsp;{{'subject' | translate}}</a></li>
-                                  <li><a routerLink="theory" class="dropdown-item"><i
-                                              class="fa fa-caret-right" style="font-size:12pt;"
-                                              aria-hidden="true"></i>&nbsp;{{'theory' | translate}}</a></li>
-                                  <li><a routerLink="ethnicity" class="dropdown-item"><i
-                                              class="fa fa-caret-right" style="font-size:12pt;"
-                                              aria-hidden="true"></i>&nbsp;{{'ethnicity' | translate}}</a></li>
-                                  <li><a routerLink="religion" class="dropdown-item"><i
-                                              class="fa fa-caret-right" style="font-size:12pt;"
-                                              aria-hidden="true"></i>&nbsp;{{'religion' | translate}}</a></li>
-                                  <li><a routerLink="govermentposition" class="dropdown-item"><i
-                                                class="fa fa-caret-right" style="font-size:12pt;"
-                                                aria-hidden="true"></i>&nbsp;{{'goverment_position' | translate}}</a></li>
-                                  <li><a routerLink="organizationposition" class="dropdown-item"><i
-                                                  class="fa fa-caret-right" style="font-size:12pt;"
-                                                  aria-hidden="true"></i>&nbsp;{{'organization_position' | translate}}</a></li>
-                            </ul>
-                          </li> <!-- end li 1 -->
-                        </ng-template>
+                        
+                         </ng-template>
                             <li><a href="" class="dropdown-item"><i
                                         class="fa fa-caret-right" style="font-size:12pt;"
                                         aria-hidden="true"></i>&nbsp;{{'member_mass_organization' | translate}}</a></li>
@@ -60,31 +32,56 @@
                            <li><a href="" class="dropdown-item"><i
                                           class="fa fa-caret-right" style="font-size:12pt;"
                                           aria-hidden="true"></i>&nbsp;{{'dividend' | translate}}</a></li>
-                          <li class="dropdown-submenu dropdown-hover">
-                            <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"
-                                class="dropdown-item dropdown-toggle"><i class="fa fa-caret-right"
-                                    style="font-size:12pt;" aria-hidden="true"></i>&nbsp;{{'report' | translate}}</a>
-                            <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
-                                <li><a href="" class="dropdown-item"><i
-                                            class="fa fa-caret-right" style="font-size:12pt;"
-                                            aria-hidden="true"></i>&nbsp;{{'consolidated_report' | translate}}</a></li>
-                                            <li><a href="" class="dropdown-item"><i
-                                              class="fa fa-caret-right" style="font-size:12pt;"
-                                              aria-hidden="true"></i>&nbsp;{{'investment_project_report' | translate}}</a></li>
-                                  <li><a href="" class="dropdown-item"><i
-                                              class="fa fa-caret-right" style="font-size:12pt;"
-                                              aria-hidden="true"></i>&nbsp;{{'dividend_report' | translate}}</a></li>
-                                  <li><a href="" class="dropdown-item"><i
-                                              class="fa fa-caret-right" style="font-size:12pt;"
-                                              aria-hidden="true"></i>&nbsp;{{'report_giving_statistic' | translate}}</a></li>
-                                  <li><a routerLink="organizationposition" class="dropdown-item"><i
-                                              class="fa fa-caret-right" style="font-size:12pt;"
-                                              aria-hidden="true"></i>&nbsp;{{'member_mass_organizing_report' | translate}}</a></li>
-                            </ul>
-                        </li> <!-- end li 1 -->
                         </ul>
                     </li> <!-- end li 1 -->
+                    <li class="nav-item dropdown">
+                      <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                      aria-expanded="false" class="nav-link dropdown-toggle">{{'setting' | translate}}</a>
+                      <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                            <li><a routerLink="user" class="dropdown-item"><i
+                                      class="fa fa-caret-right" style="font-size:12pt;"
+                                      aria-hidden="true"></i>&nbsp;{{'user' | translate}}</a></li>
+                            <li><a routerLink="subject" class="dropdown-item"><i
+                                        class="fa fa-caret-right" style="font-size:12pt;"
+                                        aria-hidden="true"></i>&nbsp;{{'subject' | translate}}</a></li>
+                            <li><a routerLink="theory" class="dropdown-item"><i
+                                        class="fa fa-caret-right" style="font-size:12pt;"
+                                        aria-hidden="true"></i>&nbsp;{{'theory' | translate}}</a></li>
+                            <li><a routerLink="ethnicity" class="dropdown-item"><i
+                                        class="fa fa-caret-right" style="font-size:12pt;"
+                                        aria-hidden="true"></i>&nbsp;{{'ethnicity' | translate}}</a></li>
+                            <li><a routerLink="religion" class="dropdown-item"><i
+                                        class="fa fa-caret-right" style="font-size:12pt;"
+                                        aria-hidden="true"></i>&nbsp;{{'religion' | translate}}</a></li>
+                            <li><a routerLink="govermentposition" class="dropdown-item"><i
+                                          class="fa fa-caret-right" style="font-size:12pt;"
+                                          aria-hidden="true"></i>&nbsp;{{'goverment_position' | translate}}</a></li>
+                            <li><a routerLink="organizationposition" class="dropdown-item"><i
+                                            class="fa fa-caret-right" style="font-size:12pt;"
+                                            aria-hidden="true"></i>&nbsp;{{'organization_position' | translate}}</a></li>
+                      </ul>
+                    </li> <!-- end li 1 -->
+                    <li class="nav-item dropdown">
+                      <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                      aria-expanded="false" class="nav-link dropdown-toggle">{{'report' | translate}}</a>
+                      <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                          <li><a href="" class="dropdown-item"><i
+                                      class="fa fa-caret-right" style="font-size:12pt;"
+                                      aria-hidden="true"></i>&nbsp;{{'consolidated_report' | translate}}</a></li>
+                                      <li><a href="" class="dropdown-item"><i
+                                        class="fa fa-caret-right" style="font-size:12pt;"
+                                        aria-hidden="true"></i>&nbsp;{{'investment_project_report' | translate}}</a></li>
+                            <li><a href="" class="dropdown-item"><i
+                                        class="fa fa-caret-right" style="font-size:12pt;"
+                                        aria-hidden="true"></i>&nbsp;{{'dividend_report' | translate}}</a></li>
+                            <li><a href="" class="dropdown-item"><i
+                                        class="fa fa-caret-right" style="font-size:12pt;"
+                                        aria-hidden="true"></i>&nbsp;{{'report_giving_statistic' | translate}}</a></li>
+                            <li><a routerLink="organizationposition" class="dropdown-item"><i
+                                        class="fa fa-caret-right" style="font-size:12pt;"
+                                        aria-hidden="true"></i>&nbsp;{{'member_mass_organizing_report' | translate}}</a></li>
+                      </ul>
+                  </li> <!-- end li 1 -->
                 </ul>
             </div>
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -101,22 +98,19 @@
                   <a href="" class="dropdown-item dropdown-footer">ສະຖິຕິກອງທຶນ</a>
                 </div>
               </li>
-      
-              <!-- Language Dropdown Menu -->
               <li class="nav-item dropdown">
-                <span class="form-inline">
-                  <select 
-                      class="form-control" 
-                      #selectedLang 
-                      (change)="switchLang(selectedLang.value)">
-                    <option *ngFor="let language of translate.getLangs()" 
-                      [value]="language"
-                      [selected]="language === translate.currentLang">
-                      {{ language }}
-                    </option>
-                  </select>
-                </span>
-            </li> <!-- end li 1 -->
+                <a class="nav-link" data-toggle="dropdown" href="">
+                    <i class="fas fa-language"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right p-0">
+                    <a class="nav-link" data-toggle="nav-item" routerLink="dasboard" (click)="changeLao()">
+                        <i class="flag-icon flag-icon-la"></i>&nbsp;{{'lao' | translate}}
+                    </a>
+                    <a class="nav-link" data-toggle="nav-item" routerLink="dasboard" (click)="changeEnglish()">
+                        <i class="flag-icon flag-icon-us"></i>&nbsp;{{'english' | translate}}
+                    </a>
+                </div>
+            </li>
             </ul>
             <!-- Right navbar links -->
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -132,7 +126,7 @@
                         <li class="user-header bg-white">
                             <img src="assets/img/profile.jpg" class="img-circle elevation-2"
                                 alt="User Image">
-                                <p>{{user.username}}</p>
+                                <p>{{user}}</p>
                                <a href="#" (click)="logout()"><i class="fas fa-power-off"></i>&nbsp;{{'logout' | translate}}</a>
                         </li>
                     </ul>
