@@ -17,10 +17,16 @@ export class HomeComponent {
   }
   ngOnInit() : void {
     this.role = localStorage.getItem('role');
-    this.authservice.getUser().subscribe( res => this.user = res, err => console.log(err));
+    this.authservice.getUser().subscribe( res => this.user = res.username, err => console.log(err));
   }
   switchLang(lang: string) {
     this.translate.use(lang);
+  }
+  changeLao(){
+    this.translate.use('lao');
+  }
+  changeEnglish(){
+    this.translate.use('en');
   }
   logout(){
     this.authservice.deleteToken();

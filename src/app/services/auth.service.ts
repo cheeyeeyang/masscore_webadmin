@@ -55,4 +55,12 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   }
+  postFile(caption: string, fileToUpload: File) {
+    const endpoint = `${this.url}/UploadImage`;
+    const formData: FormData = new FormData();
+    formData.append('Image', fileToUpload, fileToUpload.name);
+    formData.append('ImageCaption', caption);
+    return this.http
+      .post(endpoint, formData);
+  }
 }

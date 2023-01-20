@@ -7,7 +7,8 @@ declare var $:any
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.sass']
+  styleUrls: ['./user.component.sass'],
+  providers:[AuthService]
 })
 export class UserComponent {
   role:any;
@@ -26,6 +27,8 @@ export class UserComponent {
   hiddenId:any = '';
   dataList: UserModel[] = [];
   model = new UserModel();
+  imageUrl: string = "/assets/img/profile.jpg";
+  fileToUpload: File | any;
   constructor(private service: AuthService,private fb: FormBuilder, private toastr:ToastrService){
   }
   ngOnInit() : void{
@@ -42,6 +45,15 @@ export class UserComponent {
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }
+  handleFileInput(file: FileList) {
+    this.fileToUpload = file.item(0);
+    var reader = new FileReader();
+    reader.onload = (event:any) => {
+      this.imageUrl = event.target.result;
+    }
+    reader.readAsDataURL(this.fileToUpload);
+  }
+
  //use toastr
  successToastr(){
   this.toastr.success('ສໍາເລັດແລ້ວ!', 'Success',{
