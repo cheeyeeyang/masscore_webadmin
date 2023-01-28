@@ -31,7 +31,7 @@ export class LoginComponent {
       (res :any)=> {
          localStorage.setItem('role', res.role);
          this.checkLogin = 'true';
-         this.router.navigate(['/home']);
+         this.router.navigateByUrl('/home');
       },
       err => { 
         console.log(err);

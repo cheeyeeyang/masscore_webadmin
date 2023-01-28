@@ -10,6 +10,7 @@ declare var $:any;
   styleUrls: ['./theory.component.sass']
 })
 export class TheoryComponent {
+  loading =  true;
   page: number = 1;
   count: number = 0;
   tableSize: number = 10;
@@ -53,15 +54,18 @@ errorToastr(){
 }
   //resetField()
   resetField(){
-     this.model.id = 0;
      this.hiddenId = "";
      this.model.name = "";
+     this.model.active = true;
   }
   //get data 
   getData(){
-    this.service
-    .Select()
-    .subscribe((res: TheoryModel[]) => this.dataList = res);
+    this.service.Select().subscribe((res: TheoryModel[]) => {
+      this.dataList = res;
+      setTimeout(() => {
+        this.loading = false;
+      }, 300);
+    });
   }
   //make pagination
   pageChangeEvent(event: number){
@@ -75,11 +79,9 @@ errorToastr(){
     }
     this.model.name = model.name;
     this.model.active =  model.active;
-    this.service
-      .Create(model)
-      .subscribe((res: TheoryModel[]) => 
+    this.service.Create(model).subscribe((res: TheoryModel[]) => 
         {
-          this.ngOnInit();
+          this.dataList = res;
           this.resetField();
           this.successToastr();
         },
@@ -92,8 +94,8 @@ errorToastr(){
  deleteData() {
   this.service
     .Delete(this.hiddenId)
-    .subscribe((res) => {
-      this.ngOnInit();
+    .subscribe((res: TheoryModel[]) => {
+      this.dataList = res;
       this.resetField();
       this.closedeleteModal();
       this.successToastr();
@@ -117,11 +119,9 @@ updateData(model: TheoryModel) {
     model.id = this.model.id;
     model.name = this.model.name;
     model.active = this.model.active;
-    this.service
-    .Update(Number(this.model.id),model)
-    .subscribe((res) => {
+    this.service.Update(Number(this.model.id),model).subscribe((res: TheoryModel[]) => {
+      this.dataList = res;
       this.resetField();
-      this.ngOnInit();
       this.successToastr();
     },(error) => {
         this.warningToastr();

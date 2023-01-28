@@ -3,26 +3,26 @@
       <!-- /.login-logo -->
       <div class="card card-outline card-primary mt-4">
         <div class="card-header text-center">
-           <img src="assets/img/logo.png"  style="width:150px;"/><br />
+           <img src="assets/img/LVMLogo1000.png"  style="width:150px;"/><br />
           <a href="/" class="h1"><b>ເຂົ້າລະບົບ</b></a>
         </div>
         <div class="card-body">
             <form>
             <div class="input-group mb-3">
-              <input class="form-control" name="username" [(ngModel)]="user.username" placeholder="ຊື່ຜູ້ໃຊ້" required>
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-user"></span>
                 </div>
               </div>
+              <input class="form-control" name="username" [(ngModel)]="user.username" placeholder="ຊື່ຜູ້ໃຊ້" required>
             </div>
             <div class="input-group mb-3">
-              <input type="password" class="form-control" name="password" [(ngModel)]="user.password" placeholder="ລະຫັດຜ່ານ" required>
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-lock"></span>
                 </div>
-            </div>
+             </div>
+              <input type="password" class="form-control" name="password" [(ngModel)]="user.password" placeholder="ລະຫັດຜ່ານ" required>
             </div>
             <div *ngIf="checkLogin == 'active'; then trueBlock; else falseBlock"></div>
              <ng-template #trueBlock>

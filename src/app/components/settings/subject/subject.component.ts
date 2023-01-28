@@ -10,6 +10,7 @@ declare var $:any;
   styleUrls: ['./subject.component.sass']
 })
 export class SubjectComponent {
+  loading = true;
   page: number = 1;
   count: number = 0;
   tableSize: number = 10;
@@ -53,15 +54,18 @@ errorToastr(){
 }
   //resetField()
   resetField(){
-     this.model.id = 0;
      this.hiddenId = "";
      this.model.name = "";
+     this.model.active = true;
   }
   //get data 
   getData(){
-    this.service
-    .Select()
-    .subscribe((res: SubjectModel[]) => this.dataList = res);
+    this.service.Select().subscribe((res: SubjectModel[]) => {
+      this.dataList = res;
+      setTimeout(() => {
+        this.loading = false;
+      }, 300);
+    });
   }
   //make pagination
   pageChangeEvent(event: number){
@@ -79,7 +83,7 @@ errorToastr(){
       .Create(model)
       .subscribe((res: SubjectModel[]) => 
         {
-          this.ngOnInit();
+          this.dataList =res;
           this.resetField();
           this.successToastr();
         },
@@ -90,10 +94,8 @@ errorToastr(){
   }
  //delete
  deleteData() {
-  this.service
-    .Delete(this.hiddenId)
-    .subscribe((res) => {
-      this.ngOnInit();
+  this.service.Delete(this.hiddenId).subscribe((res: SubjectModel[]) => {
+      this.dataList = res;
       this.resetField();
       this.closedeleteModal();
       this.successToastr();
@@ -119,9 +121,9 @@ updateData(model: SubjectModel) {
     model.active = this.model.active;
     this.service
     .Update(Number(this.model.id),model)
-    .subscribe((res) => {
+    .subscribe((res: SubjectModel[]) => {
+      this.dataList = res;
       this.resetField();
-      this.ngOnInit();
       this.successToastr();
     },(error) => {
         this.warningToastr();

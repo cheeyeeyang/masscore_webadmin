@@ -23,6 +23,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { PartypositionComponent } from './components/settings/partyposition/partyposition.component';
+import { MasspositionComponent } from './components/settings/massposition/massposition.component';
+import { MembermassorganizationComponent } from './components/modules/membermassorganization/membermassorganization.component';
+import { EconomicfundmoneyComponent } from './components/modules/economicfundmoney/economicfundmoney.component';
+import { MovementstatisticComponent } from './components/modules/movementstatistic/movementstatistic.component';
+import { InvestmentprojectComponent } from './components/modules/investmentproject/investmentproject.component';
+import { DividendComponent } from './components/modules/dividend/dividend.component';
+import { ConsolidatedreportComponent } from './components/reports/consolidatedreport/consolidatedreport.component';
+import { InvestmentprojectreportComponent } from './components/reports/investmentprojectreport/investmentprojectreport.component';
+import { DividendreportComponent } from './components/reports/dividendreport/dividendreport.component';
+import { ReportgivingstatisticComponent } from './components/reports/reportgivingstatistic/reportgivingstatistic.component';
+import { MembermassorganizingreportComponent } from './components/reports/membermassorganizingreport/membermassorganizingreport.component';
 
 
 @NgModule({
@@ -39,6 +51,18 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     LoginComponent,
     ForbiddenComponent,
     HomeComponent,
+    PartypositionComponent,
+    MasspositionComponent,
+    MembermassorganizationComponent,
+    EconomicfundmoneyComponent,
+    MovementstatisticComponent,
+    InvestmentprojectComponent,
+    DividendComponent,
+    ConsolidatedreportComponent,
+    InvestmentprojectreportComponent,
+    DividendreportComponent,
+    ReportgivingstatisticComponent,
+    MembermassorganizingreportComponent,
   ],
   imports: [
     BrowserModule,

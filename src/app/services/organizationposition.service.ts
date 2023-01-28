@@ -13,8 +13,8 @@ export class OrganizationpositionService {
   public Select(): Observable<OrganizationPositionModel[]> {
     return this.http.get<OrganizationPositionModel[]>(`${Reposity.apiUrl}/${this.url}`);
   }
-  public Update(id:Number,data: OrganizationPositionModel): Observable<any> {
-    return this.http.put(
+  public Update(id:Number,data: OrganizationPositionModel): Observable<OrganizationPositionModel[]> {
+    return this.http.put<OrganizationPositionModel[]>(
       `${Reposity.apiUrl}/${this.url}/${id}`,
        data
     );
@@ -27,8 +27,8 @@ export class OrganizationpositionService {
     );
   }
 
-  public Delete(id:any): Observable<OrganizationPositionModel> {
-    return this.http.delete<OrganizationPositionModel>(
+  public Delete(id:any): Observable<OrganizationPositionModel[]> {
+    return this.http.delete<OrganizationPositionModel[]>(
       `${Reposity.apiUrl}/${this.url}/${id}`
     );
   }

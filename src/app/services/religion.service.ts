@@ -13,8 +13,8 @@ export class ReligionService {
   public Select(): Observable<ReligionModel[]> {
     return this.http.get<ReligionModel[]>(`${Reposity.apiUrl}/${this.url}`);
   }
-  public Update(id:Number,data: ReligionModel): Observable<any> {
-    return this.http.put(
+  public Update(id:Number,data: ReligionModel): Observable<ReligionModel[]> {
+    return this.http.put<ReligionModel[]>(
       `${Reposity.apiUrl}/${this.url}/${id}`,
        data
     );
@@ -27,8 +27,8 @@ export class ReligionService {
     );
   }
 
-  public Delete(id:any): Observable<ReligionModel> {
-    return this.http.delete<ReligionModel>(
+  public Delete(id:any): Observable<ReligionModel[]> {
+    return this.http.delete<ReligionModel[]>(
       `${Reposity.apiUrl}/${this.url}/${id}`
     );
   }

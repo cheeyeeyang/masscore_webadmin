@@ -10,6 +10,7 @@ declare var $:any;
   styleUrls: ['./ethnicity.component.sass']
 })
 export class EthnicityComponent {
+  loading = true;
   page: number = 1;
   count: number = 0;
   tableSize: number = 10;
@@ -53,15 +54,18 @@ errorToastr(){
 }
   //resetField()
   resetField(){
-     this.model.id = 0;
      this.hiddenId = "";
      this.model.name = "";
+     this.model.active = true;
   }
   //get data 
   getData(){
-    this.service
-    .Select()
-    .subscribe((res: EthnicityModel[]) => this.dataList = res);
+    this.service.Select().subscribe((res: EthnicityModel[]) => {
+      this.dataList = res;
+      setTimeout(() => {
+        this.loading = false;
+      }, 300);
+    });
   }
   //make pagination
   pageChangeEvent(event: number){
@@ -79,7 +83,7 @@ errorToastr(){
       .Create(model)
       .subscribe((res: EthnicityModel[]) => 
         {
-          this.ngOnInit();
+          this.dataList = res;
           this.resetField();
           this.successToastr();
         },
@@ -93,7 +97,7 @@ errorToastr(){
   this.service
     .Delete(this.hiddenId)
     .subscribe((res) => {
-      this.ngOnInit();
+      this.dataList = res;
       this.resetField();
       this.closedeleteModal();
       this.successToastr();
@@ -119,9 +123,9 @@ updateData(model: EthnicityModel) {
     model.active = this.model.active;
     this.service
     .Update(Number(this.model.id),model)
-    .subscribe((res) => {
+    .subscribe((res : EthnicityModel[]) => {
+      this.dataList = res;
       this.resetField();
-      this.ngOnInit();
       this.successToastr();
     },(error) => {
         this.warningToastr();

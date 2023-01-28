@@ -3,12 +3,14 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h5><i class="fa fa-users"></i>
+              <h5><i class="fa fa-layer-group"></i>
+                {{'setting' | translate}}
+                <i class="fa fa-angle-double-right"></i>
                   {{'user' | translate}}</h5>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="/home">{{'home' | translate}}</a></li>
+                <li class="breadcrumb-item"><a routerLink="/home">{{'home' | translate}}</a></li>
                 <li class="breadcrumb-item active">{{'user' | translate}}</li>
               </ol>
             </div>
@@ -21,15 +23,11 @@
           <div class="row">
             <div class="col-md-12">
               <div class="card">
-                <div class="card-header">
-                  <div class="row">
-                    <div class="col-md-9">
-                        <a  class="btn btn-success" (click)="opencreateModal()"><i class="fa fa-plus"></i> {{'add' | translate}}</a>
-                    </div>
-                  </div>
-                </div>
                 <div class="card-body">
                   <div class="row mb-2">
+                    <div class="col-md-9">
+                      <a  class="btn btn-success" (click)="opencreateModal()"><i class="fa fa-plus"></i> {{'add' | translate}}</a>
+                   </div>
                     <div class="col-md-3">
                         <div class="form-group">
                           <label for="search">{{'search' | translate}}</label>
@@ -37,21 +35,20 @@
                         </div>
                     </div>
                  </div>
-                  <div class="table-responsive mt-2">
+                  <div class="table-responsive mt-2" *ngIf="!loading">
                     <table class="table table-bordered table-striped" style="white-space:nowrap;">
                       <thead class="bg-info">
                       <tr class="text-center">
                         <th>{{'no' | translate}}</th>
                         <th>{{'profile' | translate}}</th>
-                        <th>{{'name' | translate}}</th>
+                        <th>{{'firstname' | translate}} {{'lastname' | translate}}</th>
                         <th>{{'phone' | translate}}</th>
                         <th>{{'email' | translate}}</th>
                         <th>{{'ethnicity' | translate}}</th>
                         <th>{{'religion' | translate}}</th>
-                        <th>{{'subject' | translate}}</th>
-                        <th>{{'theory' | translate}}</th>
                         <th>{{'organization_position' | translate}}</th>
                         <th>{{'goverment_position' | translate}}</th>
+                        <th>{{'mass_position' | translate}}</th>
                         <th>{{'action' | translate}}</th>
                       </tr>
                       </thead>
@@ -62,168 +59,214 @@
                               <span *ngIf="page>1">{{((page-1)*10)+(i+1)}}</span>
                             </td>
                             <td class="text-center">
-                                <a>
-                                  <img src="assets/img/profile.jpg" class="img-fluid" alt="white sample"/>
+                               <a href="{{data.profile}}" *ngIf="data.checkimg !=null && data.checkimg !='null'">
+                                <img src="{{data.profile}}" style="width:80;height: 80px;"/>
+                               </a>
+                                <a *ngIf="data.checkimg ==null || data.checkimg =='null'">
+                                  <img src="assets/img/profile.jpg" style="width:80;height: 80px;"/>
                                 </a>
                             </td>
-                            <td class="align-middle align-text-left">{{data.username}}</td>
-                            <td class="align-middle align-text-left" >{{data.phone}}</td>
+                            <td class="align-middle align-text-left">{{data.firstname}} {{data.lastname}}</td>
+                            <td class="align-middle align-text-left" >{{data.phonenumber}}</td>
                             <td class="align-middle align-text-left" >{{data.email}}</td>
-                            <td class="align-middle align-text-left" >ມົ້ງ</td>
-                            <td class="align-middle align-text-left" >ຜີ</td>
-                            <td class="align-middle align-text-left" >ປະລິນຍາຕີ</td>
-                            <td class="align-middle align-text-left" >ທິດສະດີການເມືອງ</td>
-                            <td class="align-middle align-text-left" >ຫົວໜ້າ</td>
-                            <td class="align-middle align-text-left" >ຮອງຫົວໜ້າ</td>
+                            <td class="align-middle align-text-left" >{{data.ethnicity}}</td>
+                            <td class="align-middle align-text-left" >{{data.religion}}</td>
+                            <td class="align-middle align-text-left" >{{data.organization}}</td>
+                            <td class="align-middle align-text-left" >{{data.goverment}}</td>
+                            <td class="align-middle align-text-left" >{{data.massorganization}}</td>
                             <td class="align-middle align-text-left">
-                                <button  type="button" class="btn btn-warning btn-sm" (click)="openeditModal(data)"><i class="fas fa-pencil-alt"></i></button>&nbsp;
-                                <button  type="button" class="btn btn-danger btn-sm" (click)="opendeleteModal(data)"><i class="fas fa-trash"></i></button></td>
+                              <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                               {{'action' | translate}}
+                              </button>
+                                <div class="dropdown-menu" role="menu">
+                                  <a class="dropdown-item"  (click)="openeditModal(data)"><i class="fas fa-pencil-alt text-warning"></i> {{'edit' | translate}}</a>
+                                  <a class="dropdown-item" (click)="opendetailModal(data)"><i class="fa fa-id-card text-info"></i> {{'detail' | translate}}</a>
+                                  <a class="dropdown-item" (click)="opendeleteModal(data)"><i class="fas fa-trash text-danger"></i> {{'delete' | translate}}</a>
+                                </div>
+                              </div>
                         </tr>
                       </tbody>
                     </table>
+                    <div class="text-center mt-2">
+                      <pagination-controls  previousLabel="Preview" nextLabel="Next" (pageChange)="page = ($event)"></pagination-controls>
+                    </div>
                   </div>
-                  <div class="text-center mt-2">
-                    <pagination-controls  previousLabel="Preview" nextLabel="Next" (pageChange)="page = ($event)"></pagination-controls>
-                  </div>
-                  <div class="text-center" *ngIf="!dataList">
-                     <img src="assets/img/loading.gif" alt="" width="100" height="100">
-                  </div> 
                 </div>
+                <div class="text-center" *ngIf="loading">
+                  <img src="assets/img/loading.gif" alt="" width="100" height="100">
+               </div> 
               </div>
             </div>
           </div>
         </div>
       </section>
       <!-- /.modal-create -->
-      <div class="modal fade" id="modal-add">
+      <div class="modal fade" id="modal-add"> 
         <div class="modal-dialog modal-xl">
               <div class="modal-content">
                 <div class="modal-header bg-info">
-                  <h4 class="modal-title">{{'add' | translate}}</h4>
+                  <h4 class="modal-title"><i class="fa fa-plus"></i> {{'add' | translate}}</h4>
                   <button type="button" class="close" (click)="closecreateModal()" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  <div class="row justify-content-center">
-                    <div class="d-flex flex-column">
-                        <img [src]="imageUrl" width="100">
-                        <div class="col-md-12">
-                          <input type="file" #Image accept="image/*" (change)="handleFileInput($any($event).target.files)">
-                        </div>
+                  <form [formGroup]="form"  enctype="multipart/form-data"  autocomplete="off">
+                    <div class="row justify-content-center">
+                      <div class="d-flex flex-column text-center">
+                          <img [src]="imageUrl" width="100">
+                          <div class="col-md-12">
+                            <input class="form-control" type="file" id="img"  #Image accept="image/*" (change)="handleFileInput($any($event).target.files)" style="display:none;">
+                            <label for="img" class="btn btn-success btn-sm mt-1">{{'select_img' | translate}}</label>
+                          </div>
+                      </div>
                     </div>
-                  </div>
-                  <form [formGroup]="form">
                         <div class="row">
                           <div class="col-md-3">
                               <div class="form-group">
-                                <label for="">{{'name' | translate}}</label>
-                                <input type="text" class="form-control" placeholder="{{'name' | translate}}">
+                                <label for="">{{'code' | translate}}</label>
+                                <input [ngClass]="{ 'is-invalid': submitted && f['code'].errors}" formControlName="code" [(ngModel)]="model.code" class="form-control" placeholder="{{'code' | translate}}">
                               </div>
                           </div>
                           <div class="col-md-3">
-                            <div class="form-group">
-                              <label for="">{{'phone' | translate}}</label>
-                              <input [ngClass]="{ 'is-invalid': submitted && f['phone'].errors}" formControlName="phone" [(ngModel)]="model.phone" class="form-control" placeholder="{{'phone' | translate}}">
-                              <div *ngIf="submitted && f['phone'].errors" class="is-invalid">
-                                <span *ngIf="f['phone'].errors['required']" class="text-danger">{{'required_phone' | translate}}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <label for="">{{'email' | translate}}</label>
-                              <input [ngClass]="{ 'is-invalid': submitted && f['email'].errors}" formControlName="email" [(ngModel)]="model.email" class="form-control" placeholder="{{'email' | translate}}">
-                              <div *ngIf="submitted && f['email'].errors" class="is-invalid">
-                                <span *ngIf="f['email'].errors['required']" class="text-danger">{{'required_email' | translate}}</span>
-                              </div>
-                              <div *ngIf="submitted && f['email'].errors" class="is-invalid">
-                                <span *ngIf="f['email'].errors['email']" class="text-danger">example@gmail.com</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3">
-                                <div class="form-group">
-                                  <label for="">{{'ethnicity' | translate}}</label>
-                                  <select name="" id="" class="form-control">
-                                      <option value="">ມົ້ງ</option>
-                                      <option value="">ລາວ</option>
-                                  </select>
+                              <div class="form-group">
+                                <label for="">{{'firstname' | translate}}</label>
+                                <input [ngClass]="{ 'is-invalid': submitted && f['firstname'].errors}" formControlName="firstname" [(ngModel)]="model.firstname" class="form-control" placeholder="{{'firstname' | translate}}">
+                                <div *ngIf="submitted && f['firstname'].errors" class="is-invalid">
+                                  <span *ngIf="f['firstname'].errors['required']" class="text-danger">{{'required_firstname' | translate}}</span>
                                 </div>
+                              </div>
                           </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'lastname' | translate}}</label>
+                              <input  [ngClass]="{ 'is-invalid': submitted && f['lastname'].errors}" formControlName="lastname" [(ngModel)]="model.lastname" class="form-control" placeholder="{{'lastname' | translate}}">
+                                <div *ngIf="submitted && f['lastname'].errors" class="is-invalid">
+                                  <span *ngIf="f['lastname'].errors['required']" class="text-danger">{{'required_lastname' | translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'birthday' | translate}}</label>
+                            <input  type="date" [ngClass]="{ 'is-invalid': submitted && f['birthday'].errors}" formControlName="birthday" [(ngModel)]="model.birthday" class="form-control" placeholder="{{'code' | translate}}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'phone' | translate}}</label>
+                            <input [ngClass]="{ 'is-invalid': submitted && f['phonenumber'].errors}" minlength="8" maxlength="15" formControlName="phonenumber" [(ngModel)]="model.phonenumber" class="form-control" placeholder="{{'phone' | translate}}">
+                            <div *ngIf="submitted && f['phonenumber'].errors" class="is-invalid">
+                              <span *ngIf="f['phonenumber'].errors['required']" class="text-danger">{{'required_phone' | translate}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'email' | translate}}</label>
+                            <input [ngClass]="{ 'is-invalid': submitted && f['email'].errors}" formControlName="email" [(ngModel)]="model.email" class="form-control" placeholder="{{'email' | translate}}">
+                            <div *ngIf="submitted && f['email'].errors" class="is-invalid">
+                              <span *ngIf="f['email'].errors['required']" class="text-danger">{{'required_email' | translate}}</span>
+                            </div>
+                            <div *ngIf="submitted && f['email'].errors" class="is-invalid">
+                              <span *ngIf="f['email'].errors['email']" class="text-danger">example@gmail.com</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'ethnicity' | translate}}</label>
+                                <select formControlName="ethnicity_id" [(ngModel)]="model.ethnicity_id" class="form-control">
+                                  <option value="">{{'select' | translate}}</option>
+                                  <option *ngFor="let e of ethnicityList" [ngValue]="e.id">{{e.name}}</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'religion' | translate}}</label>
+                            <select formControlName="religion_id" name="religion_id" [(ngModel)]="model.religion_id" class="form-control">
+                              <option value="">{{'select' | translate}}</option>
+                              <option *ngFor="let r of religionList" [ngValue]="r.id">{{r.name}}</option>
+                            </select>
+                          </div>
+                        </div>
                       </div>
                       <div class="row">
                           <div class="col-md-3">
                             <div class="form-group">
-                              <label for="">{{'religion' | translate}}</label>
-                              <select name="" id="" class="form-control">
-                                  <option value="">ຜີ</option>
-                                  <option value="">ພຸດ</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-3">
-                            <div class="form-group">
                               <label for="">{{'born_province' | translate}}</label>
-                              <select name="" id="" class="form-control">
-                                  <option value="">ວຽງຈັນ</option>
-                                  <option value="">ນະຄອນຫຼວງ</option>
+                              <select formControlName="born_province_id" [(ngModel)]="model.born_province_id"  (change)="onSelectedBornDistrict($event)" class="form-control">
+                                <option value="">{{'select' | translate}}</option>
+                                <option *ngFor="let p of provinceList" value="{{p.id}}">{{p.name}}</option>
                               </select>
                             </div>
                           </div>
                           <div class="col-md-3">
                                 <div class="form-group">
                                   <label for="">{{'born_district' | translate}}</label>
-                                  <select name="" id="" class="form-control">
-                                      <option value="">ໄຊທານີ</option>
-                                      <option value="">ຈັນທະບູລີ</option>
-                                  </select>
+                                  <select formControlName="born_district_id" [(ngModel)]="model.born_district_id" (change)="onSelectedBornVillage($event)" class="form-control">
+                                    <option value="">{{'select' | translate}}</option>
+                                    <option *ngFor="let d of born_districtList" value="{{d.code}}">{{d.name}}</option>
+                                </select>
                                 </div>
                           </div>
                           <div class="col-md-3">
                             <div class="form-group">
                               <label for="">{{'born_village' | translate}}</label>
-                              <select name="" id="" class="form-control">
-                                  <option value="">ດົງໂດກ</option>
-                                  <option value="">ດົງໂດກ</option>
+                              <select formControlName="born_village_id" [(ngModel)]="model.born_village_id" class="form-control">
+                                  <option value="">{{'select' | translate}}</option>
+                                  <option *ngFor="let v of born_villageList" [ngValue]="v.id">{{v.name}}</option>
                               </select>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'province' | translate}}</label>
+                              <select  formControlName="province_id" [(ngModel)]="model.province_id" (change)="onSelectedDistrict($event)" class="form-control">
+                                <option value="">{{'select' | translate}}</option>
+                                <option *ngFor="let p of provinceList" value="{{p.id}}">{{p.name}}</option>
+                            </select>
                             </div>
                           </div>
                       </div>
                       <div class="row">
                         <div class="col-md-3">
-                          <div class="form-group">
-                            <label for="">{{'province' | translate}}</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">ວຽງຈັນ</option>
-                                <option value="">ນະຄອນຫຼວງ</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
                               <div class="form-group">
                                 <label for="">{{'district' | translate}}</label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">ໄຊທານີ</option>
-                                    <option value="">ຈັນທະບູລີ</option>
-                                </select>
+                                <select formControlName="district_id" [(ngModel)]="model.district_id" (change)="onSelectedVillage($event)" class="form-control">
+                                  <option value="">{{'select' | translate}}</option>
+                                  <option *ngFor="let d of districtList" value="{{d.code}}">{{d.name}}</option>
+                              </select>
                               </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
                             <label for="">{{'village' | translate}}</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">ດົງໂດກ</option>
-                                <option value="">ດົງໂດກ</option>
-                            </select>
+                            <select formControlName="village_id" [(ngModel)]="model.village_id" class="form-control">
+                              <option value="">{{'select' | translate}}</option>
+                              <option *ngFor="let v of villageList" [ngValue]="v.id">{{v.name}}</option>
+                          </select>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
                             <label for="">{{'subject' | translate}}</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">ຜີ</option>
-                                <option value="">ພຸດ</option>
+                            <select formControlName="subject_id" [(ngModel)]="model.subject_id" class="form-control">
+                              <option value="">{{'select' | translate}}</option>
+                              <option *ngFor="let item of subjectList" [ngValue]="item.id">{{item.name}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'theory' | translate}}</label>
+                            <select formControlName="theory_id" [(ngModel)]="model.theory_id" class="form-control">
+                              <option value="">{{'select' | translate}}</option>
+                              <option *ngFor="let item of theoryList" [ngValue]="item.id">{{item.name}}</option>
                             </select>
                           </div>
                         </div>
@@ -231,46 +274,84 @@
                     <div class="row">
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label for="">{{'theory' | translate}}</label>
-                          <select name="" id="" class="form-control">
-                              <option value="">ວຽງຈັນ</option>
-                              <option value="">ນະຄອນຫຼວງ</option>
-                          </select>
+                          <label for="">{{'date_start_work' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && f['date_start_work'].errors}" formControlName="date_start_work" [(ngModel)]="model.date_start_work" class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'youth_date' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && f['youth_date'].errors}" formControlName="youth_date" [(ngModel)]="model.youth_date" class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'committee_date' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && f['committee_date'].errors}" formControlName="committee_date" [(ngModel)]="model.committee_date" class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'woman_date' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && f['woman_date'].errors}" formControlName="woman_date" [(ngModel)]="model.woman_date" class="form-control" >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'reverve_party_date' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && f['reverve_party_date'].errors}" formControlName="reverve_party_date" [(ngModel)]="model.reverve_party_date" class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'perfect_party_date' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && f['perfect_party_date'].errors}" formControlName="perfect_party_date" [(ngModel)]="model.perfect_party_date" class="form-control" >
                         </div>
                       </div>
                       <div class="col-md-3">
                             <div class="form-group">
                               <label for="">{{'organization_position' | translate}}</label>
-                              <select name="" id="" class="form-control">
-                                  <option value="">ໄຊທານີ</option>
-                                  <option value="">ຈັນທະບູລີ</option>
+                              <select formControlName="organiztion_position_id" [(ngModel)]="model.organizationposition_id" class="form-control">
+                                <option value="">{{'select' | translate}}</option>
+                                <option *ngFor="let item of organizationpositionList" [ngValue]="item.id">{{item.name}}</option>
                               </select>
                             </div>
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label for="">{{'goverment_position' | translate}}</label>
-                          <select name="" id="" class="form-control">
-                              <option value="">ດົງໂດກ</option>
-                              <option value="">ດົງໂດກ</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label for="">{{'mass_position' | translate}}</label>
-                          <select name="" id="" class="form-control">
-                              <option value="">ຜີ</option>
-                              <option value="">ພຸດ</option>
+                          <label for="">{{'party_position' | translate}}</label>
+                          <select formControlName="party_position_id" [(ngModel)]="model.party_position_id" class="form-control">
+                            <option value="">{{'select' | translate}}</option>
+                            <option *ngFor="let item of partypositionList" [ngValue]="item.id">{{item.name}}</option>
                           </select>
                         </div>
                       </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">{{'goverment_position' | translate}}</label>
+                        <select formControlName="govement_position_id" [(ngModel)]="model.govement_position_id" class="form-control">
+                          <option value="">{{'select' | translate}}</option>
+                          <option *ngFor="let item of govermentpositionList" [ngValue]="item.id">{{item.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">{{'mass_position' | translate}}</label>
+                        <select formControlName="mass_id" [(ngModel)]="model.mass_id" class="form-control">
+                          <option value="">{{'select' | translate}}</option>
+                          <option *ngFor="let item of massList" [ngValue]="item.id">{{item.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
                       <div class="form-group">
                         <label for="">{{'username' | translate}}</label>
-                        <input [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" formControlName="username" [(ngModel)]="model.username" class="form-control" placeholder="{{'username' | translate}}">
+                        <input [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" formControlName="username" [(ngModel)]="model.username" class="form-control" placeholder="{{'username' | translate}}" >
                         <div *ngIf="submitted && f['username'].errors" class="is-invalid">
                           <span *ngIf="f['username'].errors['required']" class="text-danger">{{'required_username' | translate}}</span>
                         </div>
@@ -278,7 +359,7 @@
                     </div>
                     <div class="col-md-2">
                       <div class="form-group">
-                       <label>{{'status' | translate}}</label>
+                       <label>{{'role' | translate}}</label>
                         <select class="form-control" [ngClass]="{ 'is-invalid': submitted && f['role'].errors }" formControlName="role" [(ngModel)]="role">
                           <option value="">{{'select' | translate}}</option>
                           <option value="Customer">Customer</option>
@@ -292,13 +373,21 @@
                         </div>
                        </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-2">
                       <div class="form-group">
                         <label for="">{{'password' | translate}}</label>
                         <input type="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" formControlName="password" [(ngModel)]="model.password" class="form-control" placeholder="{{'password' | translate}}">
                         <div *ngIf="submitted && f['password'].errors" class="is-invalid">
                           <span *ngIf="f['password'].errors['required']" class="text-danger">{{'required_password' | translate}}</span>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="">{{'note' | translate}}</label>
+                        <input  [ngClass]="{ 'is-invalid': submitted && f['note'].errors}" formControlName="note" [(ngModel)]="model.note" class="form-control" >
                       </div>
                     </div>
                   </div>
@@ -317,131 +406,177 @@
         <div class="modal-dialog modal-xl">
               <div class="modal-content">
                 <div class="modal-header bg-info">
-                  <h4 class="modal-title">{{'edit' | translate}}</h4>
+                  <h4 class="modal-title"><i class="fas fa-pencil-alt"></i>&nbsp;{{'edit' | translate}}</h4>
                   <button type="button" class="close" (click)="closeeditModal()" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  <div class="row justify-content-center">
-                    <div class="d-flex flex-column">
-                        <img src="assets/img/profile.jpg" width="100">
-                        <div class="col-md-12">
-                          <input type="file" class="form-control"><br>
-                        </div>
+                  <form [formGroup]="formedit"  enctype="multipart/form-data">
+                    <div class="row justify-content-center">
+                      <div class="d-flex flex-column text-center">
+                          <div *ngIf="model.checkimg !=null && model.checkimg !='null' && fileToUpload == undefined">
+                            <img  src="{{model.profile}}" width="100">
+                          </div>
+                          <div *ngIf="fileToUpload ==undefined">
+                              <div *ngIf="model.checkimg ==null || model.checkimg =='null'">
+                                <img src="/assets/img/profile.jpg" width="100">
+                            </div>
+                          </div>
+                          <div *ngIf="fileToUpload != undefined">
+                            <img [src]="imageUrl" width="100">
+                          </div>
+                          <div class="col-md-12">
+                            <input class="form-control" type="file" id="img"  #Image accept="image/*" (change)="handleFileInput($any($event).target.files)" style="display:none;">
+                            <label for="img" class="btn btn-success btn-sm mt-1">{{'select_img' | translate}}</label>
+                          </div>
+                      </div>
                     </div>
-                  </div>
-                  <form [formGroup]="form">
                         <div class="row">
                           <div class="col-md-3">
                               <div class="form-group">
-                                <label for="">{{'name' | translate}}</label>
-                                <input type="text" class="form-control" placeholder="{{'name' | translate}}">
+                                <label for="">{{'code' | translate}}</label>
+                                <input [ngClass]="{ 'is-invalid': submitted && fedit['code'].errors}" formControlName="code" [(ngModel)]="model.code" class="form-control" placeholder="{{'code' | translate}}">
                               </div>
                           </div>
                           <div class="col-md-3">
-                            <div class="form-group">
-                              <label for="">{{'phone' | translate}}</label>
-                              <input [ngClass]="{ 'is-invalid': submitted && f['phone'].errors}" formControlName="phone" [(ngModel)]="model.phone" class="form-control" placeholder="{{'phone' | translate}}">
-                              <div *ngIf="submitted && f['phone'].errors" class="is-invalid">
-                                <span *ngIf="f['phone'].errors['required']" class="text-danger">{{'required_phone' | translate}}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <label for="">{{'email' | translate}}</label>
-                              <input [ngClass]="{ 'is-invalid': submitted && f['email'].errors}" formControlName="email" [(ngModel)]="model.email" class="form-control" placeholder="{{'email' | translate}}">
-                              <div *ngIf="submitted && f['email'].errors" class="is-invalid">
-                                <span *ngIf="f['email'].errors['required']" class="text-danger">{{'required_email' | translate}}</span>
-                              </div>
-                              <div *ngIf="submitted && f['email'].errors" class="is-invalid">
-                                <span *ngIf="f['email'].errors['email']" class="text-danger">example@gmail.com</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3">
-                                <div class="form-group">
-                                  <label for="">{{'ethnicity' | translate}}</label>
-                                  <select name="" id="" class="form-control">
-                                      <option value="">ມົ້ງ</option>
-                                      <option value="">ລາວ</option>
-                                  </select>
+                              <div class="form-group">
+                                <label for="">{{'firstname' | translate}}</label>
+                                <input [ngClass]="{ 'is-invalid': submitted && fedit['firstname'].errors}" formControlName="firstname" [(ngModel)]="model.firstname" class="form-control" placeholder="{{'firstname' | translate}}">
+                                <div *ngIf="submitted && fedit['firstname'].errors" class="is-invalid">
+                                  <span *ngIf="fedit['firstname'].errors['required']" class="text-danger">{{'required_firstname' | translate}}</span>
                                 </div>
+                              </div>
                           </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'lastname' | translate}}</label>
+                              <input  [ngClass]="{ 'is-invalid': submitted && fedit['lastname'].errors}" formControlName="lastname" [(ngModel)]="model.lastname" class="form-control" placeholder="{{'lastname' | translate}}">
+                                <div *ngIf="submitted && fedit['lastname'].errors" class="is-invalid">
+                                  <span *ngIf="fedit['lastname'].errors['required']" class="text-danger">{{'required_lastname' | translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'birthday' | translate}}</label>
+                            <input  type="date" [ngClass]="{ 'is-invalid': submitted && fedit['birthday'].errors}" formControlName="birthday" [(ngModel)]="model.birthday" class="form-control" placeholder="{{'code' | translate}}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'phone' | translate}}</label>
+                            <input [ngClass]="{ 'is-invalid': submitted && fedit['phonenumber'].errors}" minlength="8" maxlength="15" formControlName="phonenumber" [(ngModel)]="model.phonenumber" class="form-control" placeholder="{{'phone' | translate}}">
+                            <div *ngIf="submitted && fedit['phonenumber'].errors" class="is-invalid">
+                              <span *ngIf="fedit['phonenumber'].errors['required']" class="text-danger">{{'required_phone' | translate}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'email' | translate}}</label>
+                            <input [ngClass]="{ 'is-invalid': submitted && fedit['email'].errors}" formControlName="email" [(ngModel)]="model.email" class="form-control" placeholder="{{'email' | translate}}">
+                            <div *ngIf="submitted && fedit['email'].errors" class="is-invalid">
+                              <span *ngIf="fedit['email'].errors['required']" class="text-danger">{{'required_email' | translate}}</span>
+                            </div>
+                            <div *ngIf="submitted && fedit['email'].errors" class="is-invalid">
+                              <span *ngIf="fedit['email'].errors['email']" class="text-danger">example@gmail.com</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'ethnicity' | translate}}</label>
+                                <select formControlName="ethnicity_id" [(ngModel)]="model.ethnicity_id" class="form-control">
+                                  <option value="">{{'select' | translate}}</option>
+                                  <option *ngFor="let e of ethnicityList" [ngValue]="e.id">{{e.name}}</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'religion' | translate}}</label>
+                            <select formControlName="religion_id" name="religion_id" [(ngModel)]="model.religion_id" class="form-control">
+                              <option value="">{{'select' | translate}}</option>
+                              <option *ngFor="let r of religionList" [ngValue]="r.id">{{r.name}}</option>
+                            </select>
+                          </div>
+                        </div>
                       </div>
                       <div class="row">
                           <div class="col-md-3">
                             <div class="form-group">
-                              <label for="">{{'religion' | translate}}</label>
-                              <select name="" id="" class="form-control">
-                                  <option value="">ຜີ</option>
-                                  <option value="">ພຸດ</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-3">
-                            <div class="form-group">
                               <label for="">{{'born_province' | translate}}</label>
-                              <select name="" id="" class="form-control">
-                                  <option value="">ວຽງຈັນ</option>
-                                  <option value="">ນະຄອນຫຼວງ</option>
+                              <select formControlName="born_province_id" [(ngModel)]="model.born_province_id"  (change)="onSelectedBornDistrict($event)" class="form-control">
+                                <option value="">{{'select' | translate}}</option>
+                                <option *ngFor="let p of provinceList" value="{{p.id}}">{{p.name}}</option>
                               </select>
                             </div>
                           </div>
                           <div class="col-md-3">
                                 <div class="form-group">
                                   <label for="">{{'born_district' | translate}}</label>
-                                  <select name="" id="" class="form-control">
-                                      <option value="">ໄຊທານີ</option>
-                                      <option value="">ຈັນທະບູລີ</option>
-                                  </select>
+                                  <select formControlName="born_district_id" [(ngModel)]="model.born_district_id" (change)="onSelectedBornVillage($event)" class="form-control">
+                                    <option value="">{{'select' | translate}}</option>
+                                    <option *ngFor="let d of born_districtList" value="{{d.code}}">{{d.name}}</option>
+                                </select>
                                 </div>
                           </div>
                           <div class="col-md-3">
                             <div class="form-group">
                               <label for="">{{'born_village' | translate}}</label>
-                              <select name="" id="" class="form-control">
-                                  <option value="">ດົງໂດກ</option>
-                                  <option value="">ດົງໂດກ</option>
+                              <select formControlName="born_village_id" [(ngModel)]="model.born_village_id" class="form-control">
+                                  <option value="">{{'select' | translate}}</option>
+                                  <option *ngFor="let v of born_villageList" [ngValue]="v.id">{{v.name}}</option>
                               </select>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'province' | translate}}</label>
+                              <select  formControlName="province_id" [(ngModel)]="model.province_id" (change)="onSelectedDistrict($event)" class="form-control">
+                                <option value="">{{'select' | translate}}</option>
+                                <option *ngFor="let p of provinceList" value="{{p.id}}">{{p.name}}</option>
+                            </select>
                             </div>
                           </div>
                       </div>
                       <div class="row">
                         <div class="col-md-3">
-                          <div class="form-group">
-                            <label for="">{{'province' | translate}}</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">ວຽງຈັນ</option>
-                                <option value="">ນະຄອນຫຼວງ</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
                               <div class="form-group">
                                 <label for="">{{'district' | translate}}</label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">ໄຊທານີ</option>
-                                    <option value="">ຈັນທະບູລີ</option>
-                                </select>
+                                <select formControlName="district_id" [(ngModel)]="model.district_id" (change)="onSelectedVillage($event)" class="form-control">
+                                  <option value="">{{'select' | translate}}</option>
+                                  <option *ngFor="let d of districtList" value="{{d.code}}">{{d.name}}</option>
+                              </select>
                               </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
                             <label for="">{{'village' | translate}}</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">ດົງໂດກ</option>
-                                <option value="">ດົງໂດກ</option>
-                            </select>
+                            <select formControlName="village_id" [(ngModel)]="model.village_id" class="form-control">
+                              <option value="">{{'select' | translate}}</option>
+                              <option *ngFor="let v of villageList" [ngValue]="v.id">{{v.name}}</option>
+                          </select>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
                             <label for="">{{'subject' | translate}}</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">ຜີ</option>
-                                <option value="">ພຸດ</option>
+                            <select formControlName="subject_id" [(ngModel)]="model.subject_id" class="form-control">
+                              <option value="">{{'select' | translate}}</option>
+                              <option *ngFor="let item of subjectList" [ngValue]="item.id">{{item.name}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'theory' | translate}}</label>
+                            <select formControlName="theory_id" [(ngModel)]="model.theory_id" class="form-control">
+                              <option value="">{{'select' | translate}}</option>
+                              <option *ngFor="let item of theoryList" [ngValue]="item.id">{{item.name}}</option>
                             </select>
                           </div>
                         </div>
@@ -449,81 +584,342 @@
                     <div class="row">
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label for="">{{'theory' | translate}}</label>
-                          <select name="" id="" class="form-control">
-                              <option value="">ວຽງຈັນ</option>
-                              <option value="">ນະຄອນຫຼວງ</option>
-                          </select>
+                          <label for="">{{'date_start_work' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && fedit['date_start_work'].errors}" formControlName="date_start_work" [(ngModel)]="model.date_start_work" class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'youth_date' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && fedit['youth_date'].errors}" formControlName="youth_date" [(ngModel)]="model.youth_date" class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'committee_date' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && fedit['committee_date'].errors}" formControlName="committee_date" [(ngModel)]="model.committee_date" class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'woman_date' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && fedit['woman_date'].errors}" formControlName="woman_date" [(ngModel)]="model.woman_date" class="form-control" >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'reverve_party_date' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && fedit['reverve_party_date'].errors}" formControlName="reverve_party_date" [(ngModel)]="model.reverve_party_date" class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'perfect_party_date' | translate}}</label>
+                          <input  type="date" [ngClass]="{ 'is-invalid': submitted && fedit['perfect_party_date'].errors}" formControlName="perfect_party_date" [(ngModel)]="model.perfect_party_date" class="form-control" >
                         </div>
                       </div>
                       <div class="col-md-3">
                             <div class="form-group">
                               <label for="">{{'organization_position' | translate}}</label>
-                              <select name="" id="" class="form-control">
-                                  <option value="">ໄຊທານີ</option>
-                                  <option value="">ຈັນທະບູລີ</option>
+                              <select formControlName="organiztion_position_id" [(ngModel)]="model.organizationposition_id" class="form-control">
+                                <option value="">{{'select' | translate}}</option>
+                                <option *ngFor="let item of organizationpositionList" [ngValue]="item.id">{{item.name}}</option>
                               </select>
                             </div>
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label for="">{{'goverment_position' | translate}}</label>
-                          <select name="" id="" class="form-control">
-                              <option value="">ດົງໂດກ</option>
-                              <option value="">ດົງໂດກ</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label for="">{{'mass_position' | translate}}</label>
-                          <select name="" id="" class="form-control">
-                              <option value="">ຜີ</option>
-                              <option value="">ພຸດ</option>
+                          <label for="">{{'party_position' | translate}}</label>
+                          <select formControlName="party_position_id" [(ngModel)]="model.party_position_id" class="form-control">
+                            <option value="">{{'select' | translate}}</option>
+                            <option *ngFor="let item of partypositionList" [ngValue]="item.id">{{item.name}}</option>
                           </select>
                         </div>
                       </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">{{'goverment_position' | translate}}</label>
+                        <select formControlName="govement_position_id" [(ngModel)]="model.govement_position_id" class="form-control">
+                          <option value="">{{'select' | translate}}</option>
+                          <option *ngFor="let item of govermentpositionList" [ngValue]="item.id">{{item.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="">{{'mass_position' | translate}}</label>
+                        <select formControlName="mass_id" [(ngModel)]="model.mass_id" class="form-control">
+                          <option value="">{{'select' | translate}}</option>
+                          <option *ngFor="let item of massList" [ngValue]="item.id">{{item.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
                       <div class="form-group">
                         <label for="">{{'username' | translate}}</label>
-                        <input [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" formControlName="username" [(ngModel)]="model.username" class="form-control" placeholder="{{'username' | translate}}">
-                        <div *ngIf="submitted && f['username'].errors" class="is-invalid">
-                          <span *ngIf="f['username'].errors['required']" class="text-danger">{{'required_username' | translate}}</span>
+                        <input [ngClass]="{ 'is-invalid': submitted && fedit['username'].errors }" formControlName="username" [(ngModel)]="model.username" class="form-control" placeholder="{{'username' | translate}}" >
+                        <div *ngIf="submitted && fedit['username'].errors" class="is-invalid">
+                          <span *ngIf="fedit['username'].errors['required']" class="text-danger">{{'required_username' | translate}}</span>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-2">
                       <div class="form-group">
-                       <label>{{'status' | translate}}</label>
-                        <select class="form-control" [ngClass]="{ 'is-invalid': submitted && f['role'].errors }" formControlName="role" [(ngModel)]="role">
+                       <label>{{'role' | translate}}</label>
+                        <select class="form-control" [ngClass]="{ 'is-invalid': submitted && fedit['role'].errors }" formControlName="role" [(ngModel)]="role">
                           <option value="">{{'select' | translate}}</option>
-                           <option value="Customer">Customer</option>
+                          <option value="Customer">Customer</option>
                            <option value="Vendor">Vendor</option>
                            <option value="Manager">Manager</option>
                            <option value="Admin">Admin</option>
                            <option value="SuperAdmin">SuperAdmin</option>
                         </select>
-                        <div *ngIf="submitted && f['role'].errors" class="is-invalid">
-                          <span *ngIf="f['role'].errors['required']" class="text-danger">{{'required_status' | translate}}</span>
+                        <div *ngIf="submitted && fedit['role'].errors" class="is-invalid">
+                          <span *ngIf="fedit['role'].errors['required']" class="text-danger">{{'required_status' | translate}}</span>
                         </div>
                        </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-2">
                       <div class="form-group">
                         <label for="">{{'password' | translate}}</label>
-                        <input type="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" formControlName="password" [(ngModel)]="model.password" class="form-control" placeholder="{{'password' | translate}}">
-                        <div *ngIf="submitted && f['password'].errors" class="is-invalid">
-                          <span *ngIf="f['password'].errors['required']" class="text-danger">{{'required_password' | translate}}</span>
+                        <input type="password" [ngClass]="{ 'is-invalid': submitted && fedit['password'].errors }" formControlName="password" [(ngModel)]="model.password" class="form-control" placeholder="{{'password' | translate}}" autocomplete="off">
+                        <div *ngIf="submitted && fedit['password'].errors" class="is-invalid">
+                          <span *ngIf="fedit['password'].errors['required']" class="text-danger">{{'required_password' | translate}}</span>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="">{{'note' | translate}}</label>
+                        <input  [ngClass]="{ 'is-invalid': submitted && fedit['note'].errors}" formControlName="note" [(ngModel)]="model.note" class="form-control" >
                       </div>
                     </div>
                   </div>
                   </form>
                       <div class="d-flex justify-content-between">
-                          <button  type="button" class="btn btn-success" ><i class="fas fa-plus"></i>&nbsp;{{'save' | translate}}</button>
+                          <button  type="button" class="btn btn-warning" (click)="updateData()"><i class="fas fa-edit"></i>&nbsp;{{'edit' | translate}}</button>
                           <button type="button" class="btn btn-danger" (click)="closecreateModal()" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;{{'close' | translate}}</button>
+                      </div>
+                </div>
+              </div>
+        </div>
+      </div>
+      <!-- end -->
+      <!-- /.modal-detail -->
+      <div class="modal fade" id="modal-detail"> 
+        <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <div class="modal-header bg-info">
+                  <h4 class="modal-title"><i class="fa fa-id-card"></i> {{'detail' | translate}}</h4>
+                  <button type="button" class="close" (click)="closedetailModal()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form [formGroup]="form">
+                    <div class="row justify-content-center">
+                      <div class="d-flex flex-column text-center">
+                        <a href="{{model.profile}}" *ngIf="model.checkimg !=null">
+                          <img src="{{model.profile}}" class="img-fluid w-50" alt="profile"/>
+                         </a>
+                          <a *ngIf="model.checkimg ==null">
+                            <img src="assets/img/profile.jpg" class="img-fluid w-50" alt="Profile"/>
+                          </a>
+                      </div>
+                    </div>
+                        <div class="row">
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'code' | translate}}</label>
+                                <input formControlName="code" [(ngModel)]="model.code" class="form-control" placeholder="{{'code' | translate}}" readonly>
+                              </div>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'firstname' | translate}}</label>
+                                <input formControlName="firstname" [(ngModel)]="model.firstname" class="form-control" placeholder="{{'firstname' | translate}}" readonly>
+                              </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'lastname' | translate}}</label>
+                              <input formControlName="lastname" [(ngModel)]="model.lastname" class="form-control" placeholder="{{'lastname' | translate}}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'birthday' | translate}}</label>
+                            <input value="{{model.birthday | date:'dd/MM/yyyy hh:mm:a'}}" class="form-control"  readonly>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'phone' | translate}}</label>
+                            <input [(ngModel)]="model.phonenumber" class="form-control" placeholder="{{'phone' | translate}}" readonly>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'email' | translate}}</label>
+                            <input  formControlName="email" [(ngModel)]="model.email" class="form-control" placeholder="{{'email' | translate}}" readonly>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">{{'ethnicity' | translate}}</label>
+                                <input  formControlName="ethnicity" [(ngModel)]="model.ethnicity" class="form-control" placeholder="{{'ethnicity' | translate}}" readonly>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'religion' | translate}}</label>
+                            <input  formControlName="religion" [(ngModel)]="model.religion" class="form-control" placeholder="{{'religion' | translate}}" readonly>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'born_village' | translate}}</label>
+                              <input  formControlName="bornvillage" [(ngModel)]="model.bornvillage" class="form-control" placeholder="{{'born_village' | translate}}" readonly>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'born_district' | translate}}</label>
+                              <input  formControlName="borndistrict" [(ngModel)]="model.borndistrict" class="form-control" placeholder="{{'born_district' | translate}}" readonly>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'born_province' | translate}}</label>
+                              <input  formControlName="bornprovince" [(ngModel)]="model.bornprovince" class="form-control" placeholder="{{'born_province' | translate}}" readonly>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'village' | translate}}</label>
+                              <input  formControlName="village" [(ngModel)]="model.bornvillage" class="form-control" placeholder="{{'village' | translate}}" readonly>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'district' | translate}}</label>
+                            <input  formControlName="district" [(ngModel)]="model.district" class="form-control" placeholder="{{'district' | translate}}" readonly>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'province' | translate}}</label>
+                            <input  formControlName="province" [(ngModel)]="model.province" class="form-control" placeholder="{{'province' | translate}}" readonly>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'subject' | translate}}</label>
+                            <input  formControlName="subject" [(ngModel)]="model.subject" class="form-control" placeholder="{{'subject' | translate}}" readonly>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="">{{'theory' | translate}}</label>
+                            <input  formControlName="theory" [(ngModel)]="model.theory" class="form-control" placeholder="{{'theory' | translate}}" readonly>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'date_start_work' | translate}}</label>
+                          <input  value="{{model.datestartwork | date:'dd/MM/yyyy hh:mm:a'}}" class="form-control" placeholder="{{'date_start_work' | translate}}" readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'youth_date' | translate}}</label>
+                          <input value="{{model.youthdate| date:'dd/MM/yyyy hh:mm:a'}}" class="form-control" readonly >
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'committee_date' | translate}}</label>
+                          <input value="{{model.committeedate | date:'dd/MM/yyyy hh:mm:a'}}" class="form-control" readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'woman_date' | translate}}</label>
+                          <input  value="{{model.womandate | date:'dd/MM/yyyy hh:mm:a'}}" class="form-control" readonly>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'reverve_party_date' | translate}}</label>
+                          <input value="{{model.revervepartydate | date:'dd/MM/yyyy hh:mm:a'}}" class="form-control" readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'perfect_party_date' | translate}}</label>
+                          <input value="{{model.perfectpartydate | date:'dd/MM/yyyy hh:mm:a'}}" class="form-control" readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">{{'organization_position' | translate}}</label>
+                              <input   formControlName="organization" [(ngModel)]="model.organization" class="form-control" readonly>
+                            </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="">{{'party_position' | translate}}</label>
+                          <input   formControlName="party" [(ngModel)]="model.party" class="form-control" readonly>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="">{{'goverment_position' | translate}}</label>
+                        <input   formControlName="goverment" [(ngModel)]="model.goverment" class="form-control" readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="">{{'mass_position' | translate}}</label>
+                        <input formControlName="massorganization" [(ngModel)]="model.massorganization" class="form-control" readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="">{{'username' | translate}}</label>
+                        <input   formControlName="username" [(ngModel)]="model.username" class="form-control" readonly>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="">{{'note' | translate}}</label>
+                        <input  formControlName="note" [(ngModel)]="model.note" class="form-control"  readonly>
+                      </div>
+                    </div>
+                  </div>
+                  </form>
+                      <div class="d-flex justify-content-between">
+                          <button type="button" class="btn btn-danger" (click)="closedetailModal()" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;{{'close' | translate}}</button>
                       </div>
                 </div>
               </div>
@@ -543,12 +939,12 @@
                 <div class="modal-body">
                       <div class="row">
                           <div class="col-md-12">
-                            <h4>{{model.username}}</h4>
+                            <h4>{{model.firstname}} {{model.lastname}}</h4>
                             <h4>{{model.email}}</h4>
                           </div>
                       </div>
                       <div class="d-flex justify-content-between">
-                          <button  type="button" class="btn btn-danger"><i class="fas fa-trash"></i>&nbsp;{{'delete' | translate}}</button>
+                          <button  type="button" class="btn btn-danger" (click)="deleteData()"><i class="fas fa-trash"></i>&nbsp;{{'delete' | translate}}</button>
                           <button type="button" class="btn btn-warning" (click)="closedeleteModal()" data-dismiss="modal"><i class="fas fa-power-off"></i>&nbsp;{{'close' | translate}}</button>
                       </div>
                 </div>
