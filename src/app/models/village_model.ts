@@ -1,5 +1,7 @@
 export class VillageModel {
-    id?: number;
-    name = "";
-    active : boolean | undefined;
+    id?:number;
+    code?: string;
+    name?:string;
+    name_en?:string;
+    dis_id?: number;
 }

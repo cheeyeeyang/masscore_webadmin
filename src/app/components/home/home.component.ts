@@ -10,14 +10,16 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HomeComponent {
   role:any;
-  user: any;
+  user:any;
   constructor(public translate: TranslateService, private router:Router, private authservice: AuthService) {
     translate.addLangs(['lao', 'en']);
     translate.setDefaultLang('lao');
   }
   ngOnInit() : void {
     this.role = localStorage.getItem('role');
-    this.authservice.getUser().subscribe( res => this.user = res.username, err => console.log(err));
+    this.authservice.getUser().subscribe( res => 
+      this.user = res.users
+      , err => console.log(err));
   }
   switchLang(lang: string) {
     this.translate.use(lang);

@@ -13,8 +13,8 @@ export class SubjectService {
   public Select(): Observable<SubjectModel[]> {
     return this.http.get<SubjectModel[]>(`${Reposity.apiUrl}/${this.url}`);
   }
-  public Update(id:Number,data: SubjectModel): Observable<any> {
-    return this.http.put(
+  public Update(id:Number,data: SubjectModel): Observable<SubjectModel[]> {
+    return this.http.put<SubjectModel[]>(
       `${Reposity.apiUrl}/${this.url}/${id}`,
        data
     );
@@ -25,8 +25,8 @@ export class SubjectService {
       data
     );
   }
-  public Delete(id:any): Observable<SubjectModel> {
-    return this.http.delete<SubjectModel>(
+  public Delete(id:any): Observable<SubjectModel[]> {
+    return this.http.delete<SubjectModel[]>(
       `${Reposity.apiUrl}/${this.url}/${id}`
     );
   }

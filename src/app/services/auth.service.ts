@@ -1,10 +1,13 @@
-import { HttpClient , HttpHeaders} from '@angular/common/http';
+import { HttpClient , HttpEvent, HttpHeaders, HttpRequest} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/auth_model';
 import { Observable } from 'rxjs/internal/Observable';
 import { VillageModel } from '../models/village_model';
 import { Reposity } from '../repository/repository';
 import { UserModel } from '../models/user_model';
+import { ProvinceModel } from '../models/province_model';
+import { DistrictModel } from '../models/district_model';
+import { MassModel } from '../models/mass_model';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,32 +19,59 @@ export class AuthService {
       responseType: 'text',
     });
   }
-  public getVillage(): Observable<VillageModel[]> {
-    return this.http.get<VillageModel[]>(`${Reposity.apiUrl}/Address/villages`);
+  public getProvince(): Observable<ProvinceModel[]> {
+    return this.http.get<ProvinceModel[]>(`${Reposity.apiUrl}/Address/provinces`);
   }
-  public getUser(): Observable<UserModel> {
-    return this.http.get<UserModel>(`${Reposity.apiUrl}/${this.url}/User`);
+  public getDistrict(id:number): Observable<DistrictModel[]> {
+    return this.http.get<DistrictModel[]>(`${Reposity.apiUrl}/Address/districts/${id}`);
+  }
+  public getVillage(id:number): Observable<VillageModel[]> {
+    return this.http.get<VillageModel[]>(`${Reposity.apiUrl}/Address/villages/${id}`);
+  }
+   public getMassPosition(): Observable<MassModel[]> {
+    return this.http.get<MassModel[]>(`${Reposity.apiUrl}/Address/masspositions`);
+  }
+  public getUser(): Observable<any> {
+    return this.http.get<any>(`${Reposity.apiUrl}/${this.url}/User`);
   }
   public getUsers(): Observable<UserModel[]> {
     return this.http.get<UserModel[]>(`${Reposity.apiUrl}/${this.url}/GetAllUser`);
   }
-  public Update(id:Number,data: UserModel): Observable<any> {
-    return this.http.put(
-      `${Reposity.apiUrl}/${this.url}/${id}`,
-       data
+  public Update(id:any,data: FormData): Observable<Response[]> {
+    return this.http.put<Response[]>(
+      `${Reposity.apiUrl}/${this.url}/UpdateUser/${id}`,
+       data,
+       {
+        reportProgress: true,
+        responseType: 'json',
+      }
     );
   }
-
-  public Create(data: UserModel): Observable<UserModel[]> {
-    return this.http.post<UserModel[]>(
+  // public Create(data: FormData): Observable<UserModel[]> {
+  //   return this.http.post<UserModel[]>(
+  //     `${Reposity.apiUrl}/${this.url}/register-superadmin`,
+  //     data,
+  //     {
+  //       reportProgress: true,
+  //       responseType: 'json',
+  //     }
+  //   );
+  // }
+  //ໂຕໄດ້
+  public Create(data: FormData): Observable<Response[]> {
+    return this.http.post<Response[]>(
       `${Reposity.apiUrl}/${this.url}/register-superadmin`,
-      data
+      data,
+      {
+        reportProgress: true,
+        responseType: 'json',
+      }
     );
   }
-
-  public Delete(id:any): Observable<UserModel> {
-    return this.http.delete<UserModel>(
-      `${Reposity.apiUrl}/${this.url}/${id}`
+  public Delete(id:string,data:UserModel): Observable<any> {
+    return this.http.put<UserModel>(
+      `${Reposity.apiUrl}/${this.url}/DeleteUser/${id}`,
+      data
     );
   }
    //Helper Methods

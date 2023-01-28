@@ -13,8 +13,8 @@ export class GovermentpositionService {
   public Select(): Observable<GovermentPositionModel[]> {
     return this.http.get<GovermentPositionModel[]>(`${Reposity.apiUrl}/${this.url}`);
   }
-  public Update(id:Number,data: GovermentPositionModel): Observable<any> {
-    return this.http.put(
+  public Update(id:Number,data: GovermentPositionModel): Observable<GovermentPositionModel[]> {
+    return this.http.put<GovermentPositionModel[]>(
       `${Reposity.apiUrl}/${this.url}/${id}`,
        data
     );
@@ -27,8 +27,8 @@ export class GovermentpositionService {
     );
   }
 
-  public Delete(id:any): Observable<GovermentPositionModel> {
-    return this.http.delete<GovermentPositionModel>(
+  public Delete(id:any): Observable<GovermentPositionModel[]> {
+    return this.http.delete<GovermentPositionModel[]>(
       `${Reposity.apiUrl}/${this.url}/${id}`
     );
   }

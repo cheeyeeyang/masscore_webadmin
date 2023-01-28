@@ -13,8 +13,8 @@ export class EthnicityService {
   public Select(): Observable<EthnicityModel[]> {
     return this.http.get<EthnicityModel[]>(`${Reposity.apiUrl}/${this.url}`);
   }
-  public Update(id:Number,data: EthnicityModel): Observable<any> {
-    return this.http.put(
+  public Update(id:Number,data: EthnicityModel): Observable<EthnicityModel[]> {
+    return this.http.put<EthnicityModel[]>(
       `${Reposity.apiUrl}/${this.url}/${id}`,
        data
     );
@@ -27,8 +27,8 @@ export class EthnicityService {
     );
   }
 
-  public Delete(id:any): Observable<EthnicityModel> {
-    return this.http.delete<EthnicityModel>(
+  public Delete(id:any): Observable<EthnicityModel[]> {
+    return this.http.delete<EthnicityModel[]>(
       `${Reposity.apiUrl}/${this.url}/${id}`
     );
   }
