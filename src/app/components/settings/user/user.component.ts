@@ -341,9 +341,7 @@ errorToastr(){
   getData(){
     this.service.getUsers().subscribe((res: UserModel[]) => {
       this.dataList = res;
-      setTimeout(() => {
-        this.loading = false;
-      },300);
+      this.loading = false;
     });
     this.service.getProvince().subscribe((res: ProvinceModel[]) => this.provinceList = res);
     this.subjectService.Select().subscribe((res: SubjectModel[]) => this.subjectList = res);
