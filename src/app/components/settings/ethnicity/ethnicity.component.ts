@@ -65,7 +65,7 @@ errorToastr(){
       this.loading = false;
     });
   }
-  //make pagination
+  //makes pagination
   pageChangeEvent(event: number){
     this.page = event;
     this.getData();
