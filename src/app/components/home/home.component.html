@@ -138,16 +138,10 @@
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- User image -->
                         <li class="user-header bg-white">
-                             <ng-template [ngIf]="u.checkimg !=null && u.checkimg !='null'">
-                            <img src="{{u.profile}}" class="user-image img-circle elevation-2"
-                            alt="User Image">
-                        </ng-template>
-                        <ng-template [ngIf]="u.checkimg ==null || u.checkimg =='null'">
-                            <img src="assets/img/profile.jpg" class="user-image img-circle elevation-2"
-                            alt="User Image"/>
-                        </ng-template>
+                            <img src="{{u.profile}}" class="img-circle elevation-2"
+                                alt="User Image">
                                 <p>{{u.username}}</p>
-                               <a href="#" (click)="logout()" class="btn btn-primary btn-sm"><i class="fa fa-sign-in-alt text-white"></i>&nbsp;<span class="text-white">{{'logout' | translate}}</span></a>
+                                <a href="#" (click)="logout()" class="btn btn-primary btn-sm"><i class="fa fa-sign-in-alt text-white"></i>&nbsp;<span class="text-white">{{'logout' | translate}}</span></a>
                         </li>
                     </ul>
                 </li>
