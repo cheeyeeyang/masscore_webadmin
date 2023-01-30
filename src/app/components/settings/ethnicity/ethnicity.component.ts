@@ -62,9 +62,7 @@ errorToastr(){
   getData(){
     this.service.Select().subscribe((res: EthnicityModel[]) => {
       this.dataList = res;
-      setTimeout(() => {
-        this.loading = false;
-      }, 300);
+      this.loading = false;
     });
   }
   //make pagination

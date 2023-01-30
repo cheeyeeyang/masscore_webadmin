@@ -23,9 +23,7 @@ export class MasspositionComponent {
   getData(){
     this.service.getMassPosition().subscribe((res: MassModel[]) => {
       this.dataList = res;
-      setTimeout(() => {
-        this.loading = false;
-      }, 300);
+      this.loading = false;
     });
   }
 }
