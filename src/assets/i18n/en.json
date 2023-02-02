@@ -106,5 +106,9 @@
     "reverve_party_date": "Reverve party date",
     "perfect_party_date": "Perfect party date",
     "code": "Code",
-    "select_img" : "Choose Image"
+    "select_img" : "Choose Image",
+    "member_women": "Women members",
+    "member_fund": "Fund members",
+    "member_committee": "Committee members",
+    "member_mass": "Mass members"
 }

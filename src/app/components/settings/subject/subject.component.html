@@ -24,7 +24,7 @@
             <div class="col-md-4">
               <div class="card card-default">
                 <div class="card-header bg-info">
-                  <label>{{'add' | translate}}</label>
+                  <h3 class="card-title">{{'add' | translate}}</h3>
                 </div>
                 <form [formGroup]="form">
                     <div class="card-body">
@@ -58,7 +58,7 @@
                         <div class="d-flex justify-content-between md-2">
                             <button type="button"  class="btn btn-success" *ngIf="hiddenId==''" (click)="createData(model)">{{'save' | translate}}</button>
                             <button type="button"  class="btn btn-warning" *ngIf="hiddenId=='edit'" (click)="updateData(model)">{{'edit' | translate}}</button>
-                            <button type="button" (click)="resetField()" class="btn btn-primary">Clear</button>
+                            <button type="button" (click)="resetField()" class="btn btn-primary">{{'cancel' | translate}}</button>
                         </div>
                     </div>
 
@@ -85,7 +85,7 @@
                           <tr>
                             <th class="text-center">{{'no' | translate}}</th>
                             <th>{{'name' | translate}}</th>
-                            <th>{{'status' | translate}}</th>
+                            <th class="text-center">{{'status' | translate}}</th>
                             <th class="text-center">{{'action' | translate}}</th>
                           </tr>
                           </thead>
@@ -96,14 +96,14 @@
                                     <span *ngIf="page>1">{{((page-1)*10)+(i+1)}}</span>
                                   </td>
                                   <td>{{data.name}}</td>
-                                  <td>
+                                  <td class="text-center">
                                     <div *ngIf="data.active==true; then trueBlock; else falseBlock"></div>
-                                    <ng-template #trueBlock>{{'active' | translate}}</ng-template>
-                                    <ng-template #falseBlock>{{'no_active' | translate}}</ng-template>
+                                    <ng-template #trueBlock><span class="right badge badge-success p-2">{{'active' | translate}}</span></ng-template>
+                                    <ng-template #falseBlock><span class="right badge badge-danger p-2">{{'no_active' | translate}}</span></ng-template>
                                   </td>
                                   <td class="text-center">
                                       <button  type="button" class="btn btn-warning btn-sm" (click)="editData(data)"><i class="fas fa-pencil-alt"></i></button>&nbsp;
-                                      <!-- <button  type="button" class="btn btn-danger btn-sm" (click)="opendeleteModal(data)"><i class="fas fa-trash"></i></button> -->
+                                      <button  type="button" class="btn btn-danger btn-sm" (click)="opendeleteModal(data)"><i class="fas fa-trash"></i></button>
                                   </td>
                               </tr>
                           </tbody>
@@ -127,8 +127,8 @@
       <div class="modal fade" id="modal-delete">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">{{'delete' | translate}}</h4>
+            <div class="modal-header bg-info">
+              <h4 class="modal-title"><i class="fa fa-hand-point-right"></i> {{'title_delete' | translate}}</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -138,7 +138,7 @@
             </div>
             <div class="modal-footer justify-content-between">
               <button  type="button" class="btn btn-danger" (click)="deleteData()"><i class="fas fa-trash"></i>&nbsp;{{'delete' | translate}}</button>
-              <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-power-off"></i>&nbsp;{{'close' | translate}}</button>
+              <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;{{'close' | translate}}</button>
             </div>
           </div>
         </div>

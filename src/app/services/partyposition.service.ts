@@ -20,7 +20,7 @@ export class PartypositionService {
     );
   }
 
-  public Create(data: PartyPositionModel): Observable<PartyPositionModel[]> {
+  public Create(data: any): Observable<PartyPositionModel[]> {
     return this.http.post<PartyPositionModel[]>(
       `${Reposity.apiUrl}/${this.url}`,
       data

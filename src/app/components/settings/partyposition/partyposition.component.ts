@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { ToastrService } from 'ngx-toastr';
 import { PartyPositionModel } from 'src/app/models/party_position_model';
 import { PartypositionService } from 'src/app/services/partyposition.service';
+import { Hepler } from '../../helper/hepler';
 declare var $ : any;
 @Component({
   selector: 'app-partyposition',
@@ -23,6 +24,7 @@ export class PartypositionComponent {
   hiddenId:any = '';
   dataList: PartyPositionModel[] = [];
   model = new PartyPositionModel();
+  helper =  new Hepler();
   constructor(private service: PartypositionService,private fb: FormBuilder, private toastr:ToastrService){
   }
   ngOnInit() : void{
@@ -38,26 +40,27 @@ export class PartypositionComponent {
   }
  //use toastr
  successToastr(){
-  this.toastr.success('ສໍາເລັດແລ້ວ!', 'Success',{
+  this.toastr.success(this.helper.success, 'Success',{
       closeButton: true
   });
 }
-warningToastr(){
-  this.toastr.warning('ຂໍອະໄພເກີດມີຂໍ້ຜິດຜາດບາງຢ່າງ!', 'Warning',{
+warningToastr(w:any){
+  this.toastr.warning(w, 'Warning',{
       closeButton: true
   });
 }
-errorToastr(){
-  this.toastr.error('ຂໍອະໄພມີບັນຫາກະລຸນາລອງອີກຄັ້ງ!', 'Error',{
+errorToastr(e:any){
+  this.toastr.error(this.helper.error, 'Error',{
       closeButton: true
   });
 }
   //resetField()
-  resetField(){
-     this.hiddenId = "";
-     this.model.name = "";
-     this.model.active = true;
-  }
+ resetField(){
+  this.model.id  = 0;
+  this.hiddenId = "";
+  this.model.name = "";
+  this.model.active = true;
+}
   //get data 
   getData(){
     this.service.Select().subscribe((res: PartyPositionModel[]) => {
@@ -70,36 +73,37 @@ errorToastr(){
     this.page = event;
     this.getData();
   }
-  createData(model: PartyPositionModel) {
-     this.submitted = true;
-    if (this.form.invalid) {
-      return;
-    }
-    this.model.name = model.name;
-    this.model.active =  model.active;
-    this.service.Create(model).subscribe((res: PartyPositionModel[]) => 
-        {
-          this.dataList = res;
-          this.resetField();
-          this.successToastr();
-        },
-        (error) => {
-            this.warningToastr();
-        }
-      );
-  }
+  createData(model: PartyPositionModel) : void {
+    this.submitted = true;
+   if (this.form.invalid) {
+     return;
+   }
+   var data  = {
+        "name" : model.name,
+        "active" : model.active
+   };
+   this.service.Create(data)
+     .subscribe((res: PartyPositionModel[]) => 
+       {
+         this.dataList =res;
+         this.resetField();
+         this.successToastr();
+       },
+       (error) => {
+         this.warningToastr(this.helper.warning);
+       }
+     );
+ }
  //delete
  deleteData() {
-  this.service
-    .Delete(this.hiddenId)
-    .subscribe((res) => {
-      this.dataList = res;
-      this.resetField();
-      this.closedeleteModal();
-      this.successToastr();
-    }, (error) => {
-      this.warningToastr();
-    });
+  this.service.Delete(this.model.id).subscribe((res: PartyPositionModel[]) => {
+    this.dataList = res;
+    this.resetField();
+    this.closedeleteModal();
+    this.successToastr();
+  }, (error) => {
+    this.warningToastr(this.helper.not_allow_delete);
+  });
 }
 //show edit
 editData(data: PartyPositionModel) {
@@ -118,19 +122,19 @@ updateData(model: PartyPositionModel) {
     model.name = this.model.name;
     model.active = this.model.active;
     this.service
-    .Update(Number(this.model.id),model)
+    .Update(this.model.id,model)
     .subscribe((res : PartyPositionModel[]) => {
       this.dataList = res;
       this.resetField();
       this.successToastr();
     },(error) => {
-        this.warningToastr();
+        this.warningToastr(this.helper.warning);
     }
     );
 }
   //delete modal
   opendeleteModal(data: PartyPositionModel){
-    this.hiddenId = data.id;
+    this.model.id = data.id;
     this.model.name = data.name;
    $('#modal-delete').modal('show');
   }
