@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder,Validators, FormControl, FormGroup } from 
 import { ToastrService } from 'ngx-toastr';
 import { GovermentPositionModel } from 'src/app/models/govermentposition_model';
 import { GovermentpositionService } from 'src/app/services/govermentposition.service';
+import { Hepler } from '../../helper/hepler';
 declare var $:any;
 @Component({
   selector: 'app-govermentposition',
@@ -23,6 +24,7 @@ export class GovermentpositionComponent {
   hiddenId:any = '';
   dataList: GovermentPositionModel[] = [];
   model = new GovermentPositionModel();
+  helper = new Hepler();
   constructor(private service: GovermentpositionService,private fb: FormBuilder, private toastr:ToastrService){
   }
   ngOnInit() : void{
@@ -38,25 +40,26 @@ export class GovermentpositionComponent {
   }
  //use toastr
  successToastr(){
-  this.toastr.success('ສໍາເລັດແລ້ວ!', 'Success',{
+  this.toastr.success(this.helper.success, 'Success',{
       closeButton: true
   });
 }
-warningToastr(){
-  this.toastr.warning('ຂໍອະໄພເກີດມີຂໍ້ຜິດຜາດບາງຢ່າງ!', 'Warning',{
+warningToastr(w:any){
+  this.toastr.warning(w, 'Warning',{
       closeButton: true
   });
 }
-errorToastr(){
-  this.toastr.error('ຂໍອະໄພມີບັນຫາກະລຸນາລອງອີກຄັ້ງ!', 'Error',{
+errorToastr(e:any){
+  this.toastr.error(this.helper.error, 'Error',{
       closeButton: true
   });
 }
   //resetField()
   resetField(){
-     this.hiddenId = "";
-     this.model.name = "";
-     this.model.active =true;
+    this.model.id = 0;
+    this.hiddenId = "";
+    this.model.name = "";
+    this.model.active = true;
   }
   //get data 
   getData(){
@@ -84,19 +87,19 @@ errorToastr(){
           this.successToastr();
         },
         (error) => {
-            this.warningToastr();
+            this.warningToastr(this.helper.warning);
         }
       );
   }
  //delete
  deleteData() {
-  this.service.Delete(this.hiddenId).subscribe((res: GovermentPositionModel[]) => {
+  this.service.Delete(this.model.id).subscribe((res: GovermentPositionModel[]) => {
       this.dataList = res;
       this.resetField();
       this.closedeleteModal();
       this.successToastr();
     }, (error) => {
-      this.warningToastr();
+      this.warningToastr(this.helper.not_allow_delete);
     });
 }
 //show edit
@@ -120,13 +123,13 @@ updateData(model: GovermentPositionModel) {
       this.resetField();
       this.successToastr();
     },(error) => {
-        this.warningToastr();
+        this.warningToastr(this.helper.warning);
     }
     );
 }
   //delete modal
   opendeleteModal(data: GovermentPositionModel){
-    this.hiddenId = data.id;
+    this.model.id = data.id;
     this.model.name = data.name;
    $('#modal-delete').modal('show');
   }

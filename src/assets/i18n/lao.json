@@ -39,9 +39,9 @@
           "name_en": "ຊື່ອັງກິດ",
           "phone": "ເບີໂທ",
           "address": "ທີ່ຢູ່",
-          "village": "ບ້ານ",
-          "district": "ເມືອງ",
-          "province": "ແຂວງ",
+          "village": "ບ້ານປະຈຸບັນ",
+          "district": "ເມືອງປະຈຸບັນ",
+          "province": "ແຂວງປະຈຸບັນ",
           "note": "ໝາຍເຫດ",
           "no": "ລໍາດັບ",
           "action": "ປຸ່ມຄໍາສັ່ງ",
@@ -106,5 +106,9 @@
           "reverve_party_date": "ວັນທີເຂົ້າພັກ",
           "perfect_party_date": "ວັນທີເຂົ້າພັກສົມບູນ",
           "code": "ລະຫັດ",
-          "select_img" : "ເລືອກຮູບ"
+          "select_img" : "ເລືອກຮູບ",
+          "member_women": "ສະມາຊິກແມ່ຍິງ",
+          "member_fund": "ສະມາຊິກກອງທຶນ",
+          "member_committee": "ສະມາຊິກກໍາມະບານ",
+          "member_mass": "ສະມາຊິກໝາກເກົາ"
 }
